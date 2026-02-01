@@ -3,83 +3,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ian P Stokes | Engineering Excellence</title>
+    <title>Ian P Stokes | Engineering Leader & Technology Strategist</title>
+    <meta name="description" content="Head of Strategy & Technology with 35+ years engineering experience. Chartered Engineer, MSc Oxford. Scaling IoT sensor technology for global energy leaders.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <a href="/" class="logo">IanPStokes</a>
-            <nav class="nav">
-                <a href="index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-            </nav>
-        </div>
-    </header>
+    <!-- Animated background grid -->
+    <div class="bg-grid"></div>
 
-    <section class="hero">
-        <div class="container">
-            <h1>Transforming Ideas into Engineering Excellence</h1>
-            <p>Partner with us to build resilient ventures through expert leadership and innovative solutions.</p>
-            <a href="contact.html" class="btn">Get In Touch</a>
-        </div>
-    </section>
-
-    <section class="about" id="about">
-        <div class="container">
-            <h2>Your Partner in Engineering Success</h2>
-            <p>We focus on collaboration, bringing expert leadership and commercial acumen to every project. With over 20 years of experience and 150+ completed projects, we deliver solution-oriented approaches that drive results.</p>
-        </div>
-    </section>
-
-    <section class="highlights">
-        <div class="container">
-            <div class="highlight-grid">
-                <div class="highlight-card">
-                    <h3>Expert Leadership</h3>
-                    <p>Guiding projects with proven expertise and strategic vision.</p>
-                </div>
-                <div class="highlight-card">
-                    <h3>Commercial Acumen</h3>
-                    <p>Balancing technical excellence with business objectives.</p>
-                </div>
-                <div class="highlight-card">
-                    <h3>Solution-Oriented</h3>
-                    <p>Focused on practical, effective solutions to complex challenges.</p>
-                </div>
-                <div class="highlight-card">
-                    <h3>Global Partnerships</h3>
-                    <p>Collaborating with partners worldwide to deliver excellence.</p>
-                </div>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">IPS<span class="accent">.</span></a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#expertise">Expertise</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
             </div>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
-    </section>
+    </nav>
 
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat">
-                    <span class="stat-number">150+</span>
-                    <span class="stat-label">Projects Completed</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">20+</span>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="pulse"></span>
+                Available for Advisory Roles
+            </div>
+            <h1 class="hero-title">
+                <span class="hero-line">Engineering Leader</span>
+                <span class="hero-line">Technology Strategist</span>
+                <span class="hero-line accent-text">Problem Solver</span>
+            </h1>
+            <p class="hero-subtitle">
+                35+ years transforming complex engineering challenges into commercial success.
+                Currently scaling IoT sensor technology for Shell, BP, Total Energies, and other global energy leaders.
+            </p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary">Get in Touch</a>
+                <a href="#experience" class="btn btn-secondary">View Experience</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="35">0</span>
                     <span class="stat-label">Years Experience</span>
                 </div>
-                <div class="stat">
-                    <span class="stat-number">30+</span>
-                    <span class="stat-label">Global Partners</span>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="6">0</span>
+                    <span class="stat-label">Major Energy Clients</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">CEng</span>
+                    <span class="stat-label">Chartered Engineer</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">About Me</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-grid">
+                <div class="about-content">
+                    <p class="lead">
+                        I'm Ian Stokes — a Chartered Engineer with an MSc from Oxford and over three decades
+                        of experience turning ambitious engineering concepts into commercial reality.
+                    </p>
+                    <p>
+                        As Head of Strategy & Technology at <strong>Inductosense</strong>, I've helped scale
+                        the company from a PhD research concept to a commercial enterprise serving the world's
+                        largest energy companies. Our IoT sensor technology enables predictive maintenance
+                        and asset integrity monitoring for critical infrastructure.
+                    </p>
+                    <p>
+                        I serve as strategic advisor to our CTO, bridging the gap between cutting-edge
+                        technology and market needs. My role combines hands-on technical leadership with
+                        high-level strategic thinking — exactly where I thrive.
+                    </p>
+                    <p>
+                        Beyond the boardroom, I'm a maker at heart. I run three Bambu P1S 3D printers,
+                        create AI-generated artwork, and constantly tinker with mechanical design projects.
+                        I believe the best leaders never stop building things.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <div class="image-frame">
+                        <div class="image-placeholder">
+                            <span class="initials">IPS</span>
+                        </div>
+                        <div class="frame-corner tl"></div>
+                        <div class="frame-corner tr"></div>
+                        <div class="frame-corner bl"></div>
+                        <div class="frame-corner br"></div>
+                    </div>
+                    <div class="about-credentials">
+                        <div class="credential">
+                            <span class="credential-icon">🎓</span>
+                            <span>MSc, University of Oxford</span>
+                        </div>
+                        <div class="credential">
+                            <span class="credential-icon">⚙️</span>
+                            <span>Chartered Engineer (CEng)</span>
+                        </div>
+                        <div class="credential">
+                            <span class="credential-icon">📍</span>
+                            <span>Bristol, United Kingdom</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Experience Section -->
+    <section class="section experience" id="experience">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">Experience</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="experience-highlight">
+                <div class="exp-card featured">
+                    <div class="exp-header">
+                        <div class="exp-company">Inductosense</div>
+                        <div class="exp-period">Current Role</div>
+                    </div>
+                    <h3 class="exp-role">Head of Strategy & Technology</h3>
+                    <p class="exp-description">
+                        Leading technology strategy and serving as strategic advisor to the CTO at this
+                        innovative IoT sensor technology company. Scaling operations from PhD concept to
+                        commercial enterprise serving global energy majors.
+                    </p>
+                    <div class="exp-clients">
+                        <span class="client-label">Key Clients:</span>
+                        <div class="client-logos">
+                            <span class="client-tag">Shell</span>
+                            <span class="client-tag">BP</span>
+                            <span class="client-tag">Total Energies</span>
+                            <span class="client-tag">Reliance</span>
+                            <span class="client-tag">Petrobras</span>
+                            <span class="client-tag">Chevron</span>
+                        </div>
+                    </div>
+                    <div class="exp-achievements">
+                        <h4>Key Achievements</h4>
+                        <ul>
+                            <li>Scaled company from research phase to commercial operations</li>
+                            <li>Established partnerships with 6 major global energy companies</li>
+                            <li>Bridge between cutting-edge R&D and market requirements</li>
+                            <li>Strategic technology roadmap development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="experience-summary">
+                <div class="summary-card">
+                    <div class="summary-icon">📊</div>
+                    <h4>Strategic Leadership</h4>
+                    <p>Decades of experience translating complex technical capabilities into business value propositions.</p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">🔬</div>
+                    <h4>Technical Depth</h4>
+                    <p>Hands-on engineering background ensures credibility and effectiveness in technical discussions.</p>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">🌍</div>
+                    <h4>Global Reach</h4>
+                    <p>Experience working with multinational corporations across different cultures and markets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise Section -->
+    <section class="section expertise" id="expertise">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Expertise</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="expertise-grid">
+                <div class="expertise-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">⚡</span>
+                        Technical Leadership
+                    </h3>
+                    <ul class="skill-list">
+                        <li><span class="skill-name">IoT & Sensor Technology</span></li>
+                        <li><span class="skill-name">System Architecture</span></li>
+                        <li><span class="skill-name">Mechanical Engineering</span></li>
+                        <li><span class="skill-name">Product Development</span></li>
+                        <li><span class="skill-name">R&D Management</span></li>
+                    </ul>
+                </div>
+                <div class="expertise-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">📈</span>
+                        Strategy & Business
+                    </h3>
+                    <ul class="skill-list">
+                        <li><span class="skill-name">Technology Strategy</span></li>
+                        <li><span class="skill-name">Market Analysis</span></li>
+                        <li><span class="skill-name">Stakeholder Management</span></li>
+                        <li><span class="skill-name">Commercial Development</span></li>
+                        <li><span class="skill-name">Startup Scaling</span></li>
+                    </ul>
+                </div>
+                <div class="expertise-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">🏭</span>
+                        Industry Knowledge
+                    </h3>
+                    <ul class="skill-list">
+                        <li><span class="skill-name">Oil & Gas</span></li>
+                        <li><span class="skill-name">Energy Infrastructure</span></li>
+                        <li><span class="skill-name">Asset Integrity</span></li>
+                        <li><span class="skill-name">Predictive Maintenance</span></li>
+                        <li><span class="skill-name">Industrial IoT</span></li>
+                    </ul>
+                </div>
+                <div class="expertise-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">🛠️</span>
+                        Maker Skills
+                    </h3>
+                    <ul class="skill-list">
+                        <li><span class="skill-name">3D Printing & CAD</span></li>
+                        <li><span class="skill-name">Prototyping</span></li>
+                        <li><span class="skill-name">AI & Generative Art</span></li>
+                        <li><span class="skill-name">Mechanical Design</span></li>
+                        <li><span class="skill-name">Digital Fabrication</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">Beyond Work</h2>
+                <div class="section-line"></div>
+            </div>
+            <p class="section-intro">
+                The best engineers never stop tinkering. Here's what I build when I'm not in the office.
+            </p>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-icon">🦧</div>
+                    <h3 class="project-title">CheekyElfCreations</h3>
+                    <p class="project-type">Etsy Shop • AI Art</p>
+                    <p class="project-description">
+                        My creative outlet — an Etsy shop featuring AI-generated artwork, including
+                        a popular series of orangutan portraits reimagined as historical figures.
+                        Blending technology with whimsy.
+                    </p>
+                    <a href="#" class="project-link">
+                        Visit Shop <span class="arrow">→</span>
+                    </a>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">🖨️</div>
+                    <h3 class="project-title">3D Print Lab</h3>
+                    <p class="project-type">Personal Workshop • Bambu P1S</p>
+                    <p class="project-description">
+                        Running three Bambu P1S printers for rapid prototyping, mechanical design
+                        projects, and creative experiments. From functional parts to artistic pieces.
+                    </p>
+                    <div class="project-specs">
+                        <span class="spec">3× Bambu P1S</span>
+                        <span class="spec">Multi-color</span>
+                        <span class="spec">24/7 Operation</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">⚙️</div>
+                    <h3 class="project-title">Mechanical Projects</h3>
+                    <p class="project-type">Engineering • Design</p>
+                    <p class="project-description">
+                        Continuous exploration of mechanical design challenges. From custom fixtures
+                        to complex mechanisms, applying engineering principles to solve real problems.
+                    </p>
+                </div>
+            </div>
+            <div class="personal-note">
+                <div class="note-content">
+                    <h4>A Personal Note</h4>
+                    <p>
+                        Recently completed a personal transformation — losing 56kg through sustainable
+                        habit changes. The same engineering mindset that solves technical problems
+                        applies to life challenges: systematic approach, consistent iteration,
+                        measurable progress.
+                    </p>
+                </div>
+            </div>
+            <div class="interests-bar">
+                <span class="interest">🚴 Cycling</span>
+                <span class="interest">🎬 Cinema</span>
+                <span class="interest">✈️ Travel</span>
+                <span class="interest">🤖 AI & Tech</span>
+                <span class="interest">📚 Continuous Learning</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2 class="section-title">Get in Touch</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Let's Connect</h3>
+                    <p>
+                        Whether you're looking for strategic technology advice, exploring partnership
+                        opportunities, or just want to talk engineering — I'd love to hear from you.
+                    </p>
+                    <div class="contact-methods">
+                        <a href="mailto:ian@ianpstokes.com" class="contact-method">
+                            <span class="method-icon">✉️</span>
+                            <span class="method-text">ian@ianpstokes.com</span>
+                        </a>
+                        <a href="https://linkedin.com/in/ianpstokes" class="contact-method" target="_blank" rel="noopener">
+                            <span class="method-icon">💼</span>
+                            <span class="method-text">LinkedIn Profile</span>
+                        </a>
+                        <div class="contact-method">
+                            <span class="method-icon">📍</span>
+                            <span class="method-text">Bristol, United Kingdom</span>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        Send Message
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Ian P Stokes. All rights reserved.</p>
-            <p>Bristol, UK</p>
+            <div class="footer-content">
+                <div class="footer-logo">IPS<span class="accent">.</span></div>
+                <p class="footer-tagline">Engineering Excellence, Delivered.</p>
+                <div class="footer-links">
+                    <a href="#about">About</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#expertise">Expertise</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <p class="footer-copyright">
+                    © 2024 Ian P Stokes. Chartered Engineer. Built with precision.
+                </p>
+            </div>
         </div>
     </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
