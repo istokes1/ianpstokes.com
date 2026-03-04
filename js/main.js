@@ -100,6 +100,7 @@ function initScrollAnimations() {
     const animateElements = document.querySelectorAll(`
         .section-header,
         .about-content p,
+        .about-positioning,
         .about-image,
         .exp-card,
         .summary-card,
@@ -107,7 +108,12 @@ function initScrollAnimations() {
         .project-card,
         .personal-note,
         .contact-info,
-        .contact-form
+        .contact-form,
+        .story-block,
+        .dna-card,
+        .principle-card,
+        .timeline-header,
+        .timeline-phase
     `);
 
     animateElements.forEach(el => {
