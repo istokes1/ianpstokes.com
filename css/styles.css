@@ -1012,7 +1012,7 @@ a.contact-method:hover {
     font-size: 4.5rem;
     font-family: var(--font-mono);
     color: var(--accent);
-    opacity: 0.05;
+    opacity: 0.07;
     line-height: 1;
     user-select: none;
     pointer-events: none;
@@ -1021,7 +1021,24 @@ a.contact-method:hover {
 }
 
 .dna-card:hover .dna-bg-glyph {
-    opacity: 0.08;
+    opacity: 0.12;
+}
+
+.dna-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent) 0%, transparent 80%);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    border-radius: 12px 12px 0 0;
+}
+
+.dna-card:hover::after {
+    opacity: 1;
 }
 
 .dna-card h4 {
@@ -1060,6 +1077,10 @@ a.contact-method:hover {
     border-color: var(--accent);
     background: linear-gradient(135deg, rgba(0, 180, 216, 0.1) 0%, rgba(0, 119, 182, 0.06) 100%);
     animation: dna-glow 3s ease-in-out infinite;
+}
+
+.dna-card.dna-core::after {
+    display: none;
 }
 
 @keyframes dna-glow {
@@ -1105,24 +1126,27 @@ a.contact-method:hover {
 }
 
 .dna-project-highlight {
-    margin-top: 18px;
-    padding-top: 14px;
-    border-top: 1px solid var(--border);
+    margin-top: 20px;
+    padding: 10px 14px;
+    background: rgba(0, 180, 216, 0.07);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 6px 6px 0;
     font-size: 0.8rem;
-    color: var(--accent);
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
     line-height: 1.55;
     position: relative;
-    opacity: 0.85;
-    transition: opacity var(--transition-base);
+    transition: background var(--transition-base);
 }
 
 .dna-card:hover .dna-project-highlight {
-    opacity: 1;
+    background: rgba(0, 180, 216, 0.12);
 }
 
 .dna-project-highlight::before {
     content: '// ';
-    opacity: 0.5;
+    color: var(--accent);
+    font-weight: 600;
 }
 
 /* DNA Achievement Stats Bar */
