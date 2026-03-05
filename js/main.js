@@ -113,7 +113,8 @@ function initScrollAnimations() {
         .dna-card,
         .principle-card,
         .timeline-header,
-        .timeline-phase
+        .timeline-phase,
+        .showcase-card
     `);
 
     animateElements.forEach(el => {
