@@ -215,11 +215,14 @@ body {
     gap: 8px;
     background: rgba(0, 180, 216, 0.1);
     border: 1px solid rgba(0, 180, 216, 0.3);
-    padding: 8px 16px;
+    padding: 8px 18px;
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--accent);
     margin-bottom: 32px;
+    max-width: 100%;
+    text-align: center;
+    line-height: 1.4;
 }
 
 .pulse {
@@ -482,6 +485,30 @@ body {
 
 .credential-icon {
     font-size: 1.2rem;
+}
+
+.btn-cv-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 9px 16px;
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    letter-spacing: 0.02em;
+}
+
+.btn-cv-download:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(0, 180, 216, 0.06);
 }
 
 /* Experience Section */
