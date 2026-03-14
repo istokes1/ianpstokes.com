@@ -985,6 +985,100 @@ a.contact-method:hover {
     line-height: 1.6;
 }
 
+/* ============================================
+   Engineering Organisations Strip
+   ============================================ */
+.orgs-strip {
+    padding: 52px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-primary);
+}
+
+.orgs-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.orgs-label {
+    text-align: center;
+    font-size: 0.68rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+}
+
+.orgs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 28px 56px;
+}
+
+.org-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+}
+
+.org-logo {
+    height: 34px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+    filter: brightness(0) invert(1) opacity(0.55);
+    transition: filter 0.25s ease;
+}
+
+.org-logo:hover {
+    filter: brightness(0) invert(1) opacity(0.85);
+}
+
+.org-logo-ge {
+    height: 46px;
+}
+
+.org-text {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 0.25s ease;
+    white-space: nowrap;
+    font-family: var(--font-sans);
+}
+
+.org-text:hover {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 768px) {
+    .orgs-strip {
+        padding: 40px 0;
+    }
+
+    .orgs-grid {
+        gap: 22px 40px;
+    }
+
+    .org-logo {
+        height: 26px;
+    }
+
+    .org-logo-ge {
+        height: 36px;
+    }
+
+    .org-text {
+        font-size: 0.875rem;
+    }
+}
+
 /* Story Section */
 .story {
     background: var(--bg-secondary);
@@ -1596,12 +1690,9 @@ a.contact-method:hover {
     position: relative;
     border-radius: 12px;
     overflow: hidden;
-    background-color: var(--card-fallback, var(--bg-card));
-    background-size: cover;
-    background-position: center;
-    min-height: 300px;
+    background-color: var(--bg-card);
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
     cursor: default;
     transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
@@ -1614,8 +1705,40 @@ a.contact-method:hover {
 /* Full-width feature card spans all 3 columns */
 .showcase-card.showcase-full {
     grid-column: 1 / -1;
-    min-height: 420px;
-    align-items: center;
+}
+
+/* Image strip at top of each card */
+.showcase-card-img {
+    height: 160px;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(80%);
+    transition: filter 0.35s ease;
+    position: relative;
+}
+
+.showcase-card-img::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, var(--bg-card));
+}
+
+.showcase-full .showcase-card-img {
+    height: 220px;
+}
+
+.showcase-card:hover .showcase-card-img {
+    filter: grayscale(40%);
+}
+
+.showcase-full .showcase-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 14px;
 }
 
 /* Gradient overlay — bottom-up for standard cards */
@@ -1760,16 +1883,10 @@ a.contact-method:hover {
 
     .showcase-card.showcase-full {
         grid-column: 1 / -1;
-        min-height: 340px;
     }
 
-    .showcase-content-side {
-        padding: 32px;
-        max-width: 100%;
-    }
-
-    .showcase-content-side h3 {
-        font-size: 1.3rem;
+    .showcase-full .showcase-content h3 {
+        font-size: 1.2rem;
     }
 }
 
@@ -1779,20 +1896,12 @@ a.contact-method:hover {
         padding: 0 16px;
     }
 
-    .showcase-card {
-        min-height: 260px;
+    .showcase-card-img {
+        height: 130px;
     }
 
-    .showcase-card.showcase-full {
-        min-height: 300px;
-    }
-
-    .showcase-content-side {
-        padding: 24px;
-    }
-
-    .showcase-content-side h3 {
-        font-size: 1.1rem;
+    .showcase-full .showcase-card-img {
+        height: 170px;
     }
 }
 
