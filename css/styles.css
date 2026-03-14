@@ -1847,6 +1847,11 @@ a.contact-method:hover {
     font-family: var(--font-main);
 }
 
+/* Invert OSM tiles to dark mode */
+.leaflet-tile-pane {
+    filter: invert(100%) hue-rotate(180deg) brightness(90%) saturate(0.6);
+}
+
 .leaflet-control-attribution {
     background: rgba(10, 13, 18, 0.75) !important;
     color: var(--text-muted) !important;
