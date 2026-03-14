@@ -544,9 +544,10 @@
             <!-- Global Footprint Map -->
             <div class="career-map-wrap fade-in">
                 <h3 class="career-map-title"><span class="map-glyph">// </span>Global Footprint</h3>
-                <p class="career-map-sub">Eleven cities. Four continents. One engineering thread connecting them all.</p>
+                <p class="career-map-sub">40+ locations. Eight employers. Four continents.</p>
+                <div class="map-legend" id="map-legend"></div>
                 <div id="career-map"></div>
-                <p class="career-map-hint">Scroll to zoom &middot; Click pins for context &middot; Drag to explore</p>
+                <p class="career-map-hint">Scroll to zoom &middot; Hover pins for detail &middot; Click legend to filter</p>
             </div>
 
         </div>
@@ -922,14 +923,16 @@
         var mapEl = document.getElementById('career-map');
         if (!mapEl) return;
 
+        function hexToRgba(hex, alpha) {
+            var r = parseInt(hex.slice(1,3),16),
+                g = parseInt(hex.slice(3,5),16),
+                b = parseInt(hex.slice(5,7),16);
+            return 'rgba('+r+','+g+','+b+','+alpha+')';
+        }
+
         var map = L.map('career-map', {
-            center: [30, 35],
-            zoom: 2,
-            zoomControl: true,
-            scrollWheelZoom: false,
-            attributionControl: true,
-            minZoom: 2,
-            maxZoom: 10
+            center: [35, 30], zoom: 2, zoomControl: true,
+            scrollWheelZoom: false, attributionControl: true, minZoom: 2, maxZoom: 10
         });
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -937,40 +940,143 @@
             maxZoom: 19
         }).addTo(map);
 
-        var locations = [
-            { lat: 51.56,  lng: -1.78,  city: 'Swindon',        note: 'Motorola HQ' },
-            { lat: 39.91,  lng: 116.39, city: 'Beijing',         note: '2001 &middot; Olympics 2008' },
-            { lat: 51.90,  lng: -8.47,  city: 'Cork',            note: '2003' },
-            { lat: 50.06,  lng: 19.94,  city: 'Krak&oacute;w',   note: '2006' },
-            { lat: 21.03,  lng: 105.83, city: 'Hanoi',           note: '2012' },
-            { lat: 52.80,  lng: -2.12,  city: 'Stafford',        note: 'GE Power' },
-            { lat: 52.29,  lng: -1.54,  city: 'Leamington Spa',  note: 'Eaton' },
-            { lat: 28.63,  lng: 77.22,  city: 'Delhi',           note: 'GE India' },
-            { lat: 53.32,  lng: -63.98, city: 'Churchill Falls',  note: 'GE Hydro &middot; Canada' },
-            { lat: 51.45,  lng: -2.59,  city: 'Bristol',         note: 'Inductosense &middot; Current', current: true },
-            { lat: 51.38,  lng: -2.36,  city: 'Bath',            note: 'Capgemini SIL-4' }
+        var groups = [
+            { key:'motorola', label:'Motorola', color:'#00b4d8', locations:[
+                { lat:51.5558, lng:-1.7797,  note:'UK engineering base; TETRA radio systems & test lead' },
+                { lat:39.9042, lng:116.4074, note:'TETRA network rollout for Beijing 2008 Olympics' },
+                { lat:31.2304, lng:121.4737, note:'TETRA infrastructure deployment' },
+                { lat:30.2741, lng:120.1551, note:'System integration & acceptance testing' },
+                { lat:39.1042, lng:117.2009, note:'TETRA network commissioning' },
+                { lat:22.5431, lng:114.0579, note:'TETRA system rollout & verification' },
+                { lat:22.8200, lng:113.8200, note:'Field commissioning & RF optimisation' },
+                { lat:22.3193, lng:114.1694, note:'Regional TETRA deployment support' },
+                { lat:1.3521,  lng:103.8198, note:'Asia-Pacific regional integration support' },
+                { lat:42.0883, lng:-87.9806, note:'Motorola global HQ; architecture alignment' },
+                { lat:41.8781, lng:-87.6298, note:'US engineering collaboration' },
+                { lat:32.7555, lng:-97.3308, note:'Customer site commissioning & acceptance' },
+                { lat:50.0647, lng:19.9450,  note:'European engineering hub; system development' },
+                { lat:51.8985, lng:-8.4756,  note:'Software engineering centre collaboration' },
+                { lat:19.0760, lng:72.8777,  note:'Deployment support & technical training' }
+            ]},
+            { key:'nokia', label:'Nokia Siemens Networks', color:'#f97316', locations:[
+                { lat:51.5558, lng:-1.7803,  note:'UK base for NSN engagements' },
+                { lat:50.7374, lng:7.0982,   note:'NSN EMEA operations centre' },
+                { lat:51.2217, lng:6.7762,   note:'Regional engineering & customer projects' },
+                { lat:60.1699, lng:24.9384,  note:'Nokia global HQ; product & strategy alignment' },
+                { lat:61.4978, lng:23.7610,  note:'R&D centre collaboration' },
+                { lat:55.6761, lng:12.5683,  note:'Scandinavian customer deployments' },
+                { lat:21.0285, lng:105.8542, note:'Vietnam network modernisation programme' },
+                { lat:39.9042, lng:116.4090, note:'China market technical support' }
+            ]},
+            { key:'eaton', label:'Eaton Life Safety', color:'#ef4444', locations:[
+                { lat:52.2852, lng:-1.5200,  note:'UK head office; fire & life safety systems' },
+                { lat:53.5228, lng:-1.1285,  note:'UK manufacturing & test facility' },
+                { lat:31.2304, lng:121.4750, note:'Asia-Pacific product certification & trials' },
+                { lat:45.8941, lng:3.1133,   note:'French manufacturing site integration' },
+                { lat:48.8566, lng:2.3522,   note:'European regulatory & customer meetings' },
+                { lat:32.0853, lng:34.7818,  note:'Middle East market compliance & trials' }
+            ]},
+            { key:'volution', label:'Volution Group', color:'#10b981', locations:[
+                { lat:51.1093, lng:-0.1872,  note:'Group HQ; ventilation systems engineering' },
+                { lat:59.3293, lng:18.0686,  note:'Nordic brand technical integration' },
+                { lat:50.8503, lng:4.3517,   note:'Benelux market engineering support' },
+                { lat:55.6770, lng:12.5690,  note:'Scandinavian operations & product alignment' },
+                { lat:51.1657, lng:10.4515,  note:'DACH region technical collaboration' }
+            ]},
+            { key:'ge', label:'GE Power (HVDC)', color:'#3b82f6', locations:[
+                { lat:52.8073,  lng:-2.1183,  note:'GE Grid UK; HVDC design & systems engineering' },
+                { lat:28.6139,  lng:77.2090,  note:'India HVDC project delivery' },
+                { lat:53.5561,  lng:-64.0050, note:'Churchill Falls hydro HVDC link, Canada' },
+                { lat:-8.7612,  lng:-63.9004, note:'Porto Velho HVDC converter station, Brazil' },
+                { lat:37.5665,  lng:126.9780, note:'Korea HVDC system acceptance testing' },
+                { lat:31.5204,  lng:74.3587,  note:'Pakistan HVDC project commissioning' },
+                { lat:53.3675,  lng:7.2061,   note:'Emden offshore HVDC grid connection, Germany' },
+                { lat:48.8566,  lng:2.3535,   note:'GE Power Europe executive stakeholder meetings' }
+            ]},
+            { key:'malvern', label:'Malvern Panalytical', color:'#a855f7', locations:[
+                { lat:51.460,  lng:-2.592,  note:'Software & systems engineering for analytical instruments' },
+                { lat:52.1165, lng:-2.3165, note:'Global HQ; product architecture & R&D' },
+                { lat:52.3564, lng:6.6620,  note:'Netherlands R&D centre; hardware-software integration' }
+            ]},
+            { key:'capgemini', label:'Capgemini', color:'#f59e0b', locations:[
+                { lat:51.3811, lng:-2.3590, note:'SIL-4 safety-critical systems for rail sector' }
+            ]},
+            { key:'inductosense', label:'Inductosense', color:'#22d3ee', current:true, locations:[
+                { lat:51.449, lng:-2.586, note:'CTO & co-founder; wireless ultrasonic NDT technology', current:true }
+            ]}
         ];
 
-        locations.forEach(function(loc) {
-            var html = loc.current
-                ? '<div class="map-dot map-dot-current"></div>'
-                : '<div class="map-dot"></div>';
-
-            var icon = L.divIcon({
-                className: 'map-marker-wrap',
-                html: html,
-                iconSize:   loc.current ? [18, 18] : [12, 12],
-                iconAnchor: loc.current ? [9, 9]   : [6, 6],
-                popupAnchor: [0, -14]
-            });
-
-            L.marker([loc.lat, loc.lng], { icon: icon })
-                .addTo(map)
-                .bindTooltip(
-                    '<strong>' + loc.city + '</strong>' + loc.note,
-                    { direction: 'top', className: 'map-tooltip', offset: [0, -4] }
-                );
+        var layerGroups = {};
+        groups.forEach(function(g) {
+            layerGroups[g.key] = L.layerGroup().addTo(map);
         });
+
+        groups.forEach(function(g) {
+            g.locations.forEach(function(loc) {
+                var isCurrent = !!loc.current;
+                var dotHtml = isCurrent
+                    ? '<div class="map-dot map-dot-current" style="background:' + g.color + ';box-shadow:0 0 0 3px ' + hexToRgba(g.color, 0.3) + '"></div>'
+                    : '<div class="map-dot" style="background:' + g.color + '"></div>';
+
+                var icon = L.divIcon({
+                    className: 'map-marker-wrap',
+                    html: dotHtml,
+                    iconSize:    isCurrent ? [14, 14] : [10, 10],
+                    iconAnchor:  isCurrent ? [7, 7]   : [5, 5],
+                    popupAnchor: [0, isCurrent ? -11 : -9]
+                });
+
+                var tooltipHtml =
+                    '<div style="font-weight:600;color:' + g.color + '">' + g.label + '</div>' +
+                    '<div style="color:#94a3b8;font-size:0.82em;margin-top:3px;line-height:1.3">' + loc.note + '</div>';
+
+                L.marker([loc.lat, loc.lng], { icon: icon })
+                    .addTo(layerGroups[g.key])
+                    .bindTooltip(tooltipHtml, {
+                        direction: 'top',
+                        className: 'map-tooltip',
+                        offset: [0, isCurrent ? -9 : -7]
+                    });
+            });
+        });
+
+        var legendEl = document.getElementById('map-legend');
+        if (legendEl) {
+            groups.forEach(function(g) {
+                var pill = document.createElement('span');
+                pill.className = 'legend-pill';
+                pill.style.border = '1px solid ' + g.color;
+                pill.style.background = hexToRgba(g.color, 0.12);
+                pill.style.color = '#e2e8f0';
+
+                var dot = document.createElement('span');
+                dot.className = 'legend-dot';
+                dot.style.background = g.color;
+                if (g.current) {
+                    dot.style.boxShadow = '0 0 0 3px ' + hexToRgba(g.color, 0.3);
+                }
+
+                var labelEl = document.createElement('span');
+                labelEl.textContent = g.label;
+
+                pill.appendChild(dot);
+                pill.appendChild(labelEl);
+
+                var active = true;
+                pill.addEventListener('click', function() {
+                    active = !active;
+                    if (active) {
+                        layerGroups[g.key].addTo(map);
+                        pill.classList.remove('off');
+                    } else {
+                        map.removeLayer(layerGroups[g.key]);
+                        pill.classList.add('off');
+                    }
+                });
+
+                legendEl.appendChild(pill);
+            });
+        }
     })();
     </script>
 </body>

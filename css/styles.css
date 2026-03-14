@@ -1940,6 +1940,43 @@ a.contact-method:hover {
     100% { transform: scale(2.2); opacity: 0; }
 }
 
+/* Map legend */
+.map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.legend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    transition: opacity 0.2s, filter 0.2s;
+    user-select: none;
+}
+
+.legend-pill:hover {
+    filter: brightness(1.15);
+}
+
+.legend-pill.off {
+    opacity: 0.35;
+    filter: grayscale(0.6);
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
 @media (max-width: 768px) {
     #career-map {
         height: 300px;
