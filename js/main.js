@@ -114,7 +114,8 @@ function initScrollAnimations() {
         .principle-card,
         .timeline-header,
         .timeline-phase,
-        .showcase-card
+        .showcase-card,
+        .career-map-wrap
     `);
 
     animateElements.forEach(el => {

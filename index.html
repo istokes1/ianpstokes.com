@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 </head>
 <body>
     <!-- Animated background grid -->
@@ -539,6 +540,15 @@
                 </div>
 
             </div>
+
+            <!-- Global Footprint Map -->
+            <div class="career-map-wrap fade-in">
+                <h3 class="career-map-title"><span class="map-glyph">// </span>Global Footprint</h3>
+                <p class="career-map-sub">Eleven cities. Four continents. One engineering thread connecting them all.</p>
+                <div id="career-map"></div>
+                <p class="career-map-hint">Scroll to zoom &middot; Click pins for context &middot; Drag to explore</p>
+            </div>
+
         </div>
     </section>
 
@@ -778,7 +788,8 @@
                 The best engineers never stop building. Here's what I do when I'm not in the office.
             </p>
             <div class="projects-grid">
-                <div class="project-card">
+                <div class="project-card" style="background-image: url('https://images.pexels.com/photos/6673976/pexels-photo-6673976.jpeg?auto=compress&cs=tinysrgb&w=900')">
+                    <div class="project-img-overlay"></div>
                     <div class="project-icon">🚴</div>
                     <h3 class="project-title">Cycling</h3>
                     <p class="project-type">Daily Commuter &bull; Weekend Rider</p>
@@ -793,7 +804,8 @@
                         <span class="spec">All weather</span>
                     </div>
                 </div>
-                <div class="project-card">
+                <div class="project-card" style="background-image: url('https://images.pexels.com/photos/15584332/pexels-photo-15584332.jpeg?auto=compress&cs=tinysrgb&w=900')">
+                    <div class="project-img-overlay"></div>
                     <div class="project-icon">🖨️</div>
                     <h3 class="project-title">3D Print Lab</h3>
                     <p class="project-type">Personal Workshop &bull; Bambu P1S</p>
@@ -808,7 +820,8 @@
                         <span class="spec">24/7 Operation</span>
                     </div>
                 </div>
-                <div class="project-card">
+                <div class="project-card" style="background-image: url('https://images.pexels.com/photos/19174967/pexels-photo-19174967.jpeg?auto=compress&cs=tinysrgb&w=900')">
+                    <div class="project-img-overlay"></div>
                     <div class="project-icon">⚙️</div>
                     <h3 class="project-title">Making &amp; Building</h3>
                     <p class="project-type">Workshop &bull; Furniture &bull; Fabrication</p>
@@ -903,5 +916,63 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script>
+    (function() {
+        var mapEl = document.getElementById('career-map');
+        if (!mapEl) return;
+
+        var map = L.map('career-map', {
+            center: [30, 35],
+            zoom: 2,
+            zoomControl: true,
+            scrollWheelZoom: false,
+            attributionControl: true,
+            minZoom: 2,
+            maxZoom: 10
+        });
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_matter_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        var locations = [
+            { lat: 51.56,  lng: -1.78,  city: 'Swindon',        note: 'Motorola HQ' },
+            { lat: 39.91,  lng: 116.39, city: 'Beijing',         note: '2001 &middot; Olympics 2008' },
+            { lat: 51.90,  lng: -8.47,  city: 'Cork',            note: '2003' },
+            { lat: 50.06,  lng: 19.94,  city: 'Krak&oacute;w',   note: '2006' },
+            { lat: 21.03,  lng: 105.83, city: 'Hanoi',           note: '2012' },
+            { lat: 52.80,  lng: -2.12,  city: 'Stafford',        note: 'GE Power' },
+            { lat: 52.29,  lng: -1.54,  city: 'Leamington Spa',  note: 'Eaton' },
+            { lat: 28.63,  lng: 77.22,  city: 'Delhi',           note: 'GE India' },
+            { lat: 53.32,  lng: -63.98, city: 'Churchill Falls',  note: 'GE Hydro &middot; Canada' },
+            { lat: 51.45,  lng: -2.59,  city: 'Bristol',         note: 'Inductosense &middot; Current', current: true },
+            { lat: 51.38,  lng: -2.36,  city: 'Bath',            note: 'Capgemini SIL-4' }
+        ];
+
+        locations.forEach(function(loc) {
+            var html = loc.current
+                ? '<div class="map-dot map-dot-current"></div>'
+                : '<div class="map-dot"></div>';
+
+            var icon = L.divIcon({
+                className: 'map-marker-wrap',
+                html: html,
+                iconSize:   loc.current ? [18, 18] : [12, 12],
+                iconAnchor: loc.current ? [9, 9]   : [6, 6],
+                popupAnchor: [0, -14]
+            });
+
+            L.marker([loc.lat, loc.lng], { icon: icon })
+                .addTo(map)
+                .bindTooltip(
+                    '<strong>' + loc.city + '</strong>' + loc.note,
+                    { direction: 'top', className: 'map-tooltip', offset: [0, -4] }
+                );
+        });
+    })();
+    </script>
 </body>
 </html>
