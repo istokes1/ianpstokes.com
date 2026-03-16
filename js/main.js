@@ -115,7 +115,8 @@ function initScrollAnimations() {
         .timeline-header,
         .timeline-phase,
         .showcase-card,
-        .career-map-wrap
+        .career-map-wrap,
+        .impact-card
     `);
 
     animateElements.forEach(el => {
@@ -137,7 +138,8 @@ function initCounterAnimations() {
             if (entry.isIntersecting) {
                 const counter = entry.target;
                 const target = parseInt(counter.getAttribute('data-count'));
-                animateCounter(counter, target);
+                const suffix = counter.getAttribute('data-suffix') || '';
+                animateCounter(counter, target, suffix);
                 observer.unobserve(counter);
             }
         });
@@ -146,18 +148,21 @@ function initCounterAnimations() {
     counters.forEach(counter => observer.observe(counter));
 }
 
-function animateCounter(element, target) {
+function animateCounter(element, target, suffix) {
+    suffix = suffix || '';
     const duration = 2000;
     const step = target / (duration / 16);
     let current = 0;
 
+    const format = (n) => n >= 1000 ? n.toLocaleString() : String(n);
+
     const timer = setInterval(() => {
         current += step;
         if (current >= target) {
-            element.textContent = target;
+            element.textContent = format(target) + suffix;
             clearInterval(timer);
         } else {
-            element.textContent = Math.floor(current);
+            element.textContent = format(Math.floor(current)) + suffix;
         }
     }, 16);
 }
