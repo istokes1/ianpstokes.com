@@ -165,6 +165,28 @@ body {
     transition: var(--transition-base);
 }
 
+.nav-cv-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: background var(--transition-base), color var(--transition-base);
+    white-space: nowrap;
+}
+
+.nav-cv-btn:hover {
+    background: var(--accent);
+    color: var(--bg-primary);
+}
+
 /* Mobile Menu */
 .mobile-menu {
     display: none;
@@ -1556,6 +1578,10 @@ a.contact-method:hover {
 
 @media (max-width: 768px) {
     .nav-links {
+        display: none;
+    }
+
+    .nav-cv-btn {
         display: none;
     }
 
