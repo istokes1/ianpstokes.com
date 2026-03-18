@@ -1,7 +1,18 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const kb = require('../../data/knowledge-base.json');
+
+console.log('[SIGNAL] Function module loading...');
+
+let kb;
+try {
+    const require = createRequire(import.meta.url);
+    kb = require('../../data/knowledge-base.json');
+    console.log('[SIGNAL] Knowledge base loaded OK, employers:', kb.employers?.length);
+} catch (err) {
+    console.error('[SIGNAL] Failed to load knowledge base:', err.message);
+    console.error('[SIGNAL] import.meta.url:', import.meta.url);
+    throw err;
+}
 
 // Rate limiting — simple in-memory store
 const rateLimitStore = new Map();
@@ -128,7 +139,15 @@ export const handler = async (event) => {
     }
 
     try {
+        console.log('[SIGNAL] Mode:', safeMode, '| Messages:', conversationMessages.length);
+        console.log('[SIGNAL] API key present:', !!process.env.ANTHROPIC_API_KEY);
+
+        if (!process.env.ANTHROPIC_API_KEY) {
+            throw new Error('ANTHROPIC_API_KEY environment variable is not set');
+        }
+
         const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+        console.log('[SIGNAL] Anthropic client created, calling API...');
 
         const response = await client.messages.create({
             model: 'claude-haiku-4-5-20251001',
@@ -144,7 +163,10 @@ export const handler = async (event) => {
         };
 
     } catch (err) {
-        console.error('Anthropic error:', err.message);
+        console.error('[SIGNAL] Error type:', err.constructor?.name);
+        console.error('[SIGNAL] Error message:', err.message);
+        console.error('[SIGNAL] Error status:', err.status);
+        console.error('[SIGNAL] Stack:', err.stack?.split('\n').slice(0,4).join('\n'));
         return {
             statusCode: 500,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
