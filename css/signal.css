@@ -7,7 +7,7 @@
 .signal-robot {
     position: fixed;
     bottom: 1.6rem;
-    left: -60px;
+    left: -100px;
     z-index: 998;
     opacity: 0;
     pointer-events: none;
@@ -20,32 +20,36 @@
 /* Bob animation on the SVG while walking */
 @keyframes robot-bob {
     0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-3px); }
+    50%       { transform: translateY(-2px); }
 }
 
-/* Leg swing */
-@keyframes leg-left {
-    0%, 100% { transform: rotate(0deg);  }
-    50%       { transform: rotate(12deg); }
+/* Tread rolling — stripes fade in/out in sequence to simulate rolling */
+@keyframes tread-stripe {
+    0%, 100% { opacity: 0.08; }
+    50%       { opacity: 0.55; }
 }
 
-@keyframes leg-right {
-    0%, 100% { transform: rotate(0deg);   }
-    50%       { transform: rotate(-12deg); }
+/* Head tilt up toward SIGNAL button on arrival */
+@keyframes head-tilt {
+    0%   { transform: rotate(0deg); }
+    40%  { transform: rotate(-18deg); }
+    70%  { transform: rotate(-14deg); }
+    100% { transform: rotate(-16deg); }
 }
 
 .signal-robot.walking .robot-bob {
-    animation: robot-bob 0.38s ease-in-out infinite;
+    animation: robot-bob 0.45s ease-in-out infinite;
 }
 
-.signal-robot.walking .robot-leg-l {
-    transform-origin: 9px 0;
-    animation: leg-left 0.38s ease-in-out infinite;
+/* Tread stripes pulse in staggered sequence — animation-delay set inline in SVG */
+.signal-robot.walking .robot-tread-anim {
+    animation: tread-stripe 0.7s ease-in-out infinite;
 }
 
-.signal-robot.walking .robot-leg-r {
-    transform-origin: 21px 0;
-    animation: leg-right 0.38s ease-in-out infinite;
+/* Head tilts on arrival (class added via JS) — pivot at mast top */
+.signal-robot.arrived .robot-head {
+    transform-origin: 44px 11px;
+    animation: head-tilt 0.55s ease-out forwards;
 }
 
 /* Button pulse when robot arrives */
@@ -64,10 +68,415 @@
     .signal-robot { display: none; }
 }
 
-/* Systems demo in-page section */
+/* ── Welcome screen ── */
+.signal-welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.4rem 1.2rem 1.2rem;
+    gap: 0;
+    text-align: center;
+    overflow-y: auto;
+}
+
+.signal-welcome-robot {
+    margin-bottom: 0.9rem;
+    opacity: 0.92;
+    line-height: 0;
+}
+
+.signal-welcome-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+}
+
+.signal-welcome-intro {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.signal-welcome-intro strong {
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+}
+
+.signal-welcome-quote {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    border-left: 2px solid var(--accent);
+    text-align: left;
+    padding: 0.4rem 0.7rem;
+    margin: 0.1rem 0;
+    border-radius: 0 4px 4px 0;
+    background: rgba(0,180,216,0.04);
+    line-height: 1.5;
+}
+
+.signal-welcome-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted, var(--text-secondary));
+    margin: 0;
+    opacity: 0.75;
+}
+
+.signal-welcome-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+}
+
+.signal-welcome-chip {
+    font-size: 0.72rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid rgba(0,180,216,0.4);
+    border-radius: 20px;
+    background: rgba(0,180,216,0.06);
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.signal-welcome-chip:hover {
+    background: rgba(0,180,216,0.14);
+    border-color: var(--accent);
+}
+
+.signal-welcome-explore {
+    margin-top: 0.2rem;
+    font-size: 0.78rem;
+    padding: 0.45rem 1.1rem;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.03em;
+    transition: all 0.15s;
+}
+
+.signal-welcome-explore:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+
+/* ── Systems demo narrative section ── */
 .signal-demo-section {
     background: var(--bg-secondary);
 }
+
+.demo-philosophy {
+    margin: 2rem 0 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+}
+
+.demo-quote {
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--text-primary);
+    border-left: 3px solid var(--accent);
+    padding: 0.6rem 1.2rem;
+    margin: 0;
+    background: rgba(0,180,216,0.04);
+    border-radius: 0 6px 6px 0;
+    line-height: 1.55;
+}
+
+.demo-quote-context {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin: 0;
+    padding-left: 0.2rem;
+}
+
+/* Case cards */
+.demo-cases {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+@media (max-width: 768px) {
+    .demo-cases { grid-template-columns: 1fr; }
+}
+
+.demo-case {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+.demo-case:hover {
+    border-color: rgba(0,180,216,0.4);
+}
+
+.demo-case-visual {
+    background: #0d1117;
+    padding: 0.25rem 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+    line-height: 0;
+}
+
+.demo-case-body {
+    padding: 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.demo-case-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    opacity: 0.75;
+}
+
+.demo-case-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.demo-case-text {
+    font-size: 0.81rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin: 0;
+}
+
+.demo-case-outcome {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.28rem 0.65rem;
+    border-radius: 4px;
+    align-self: flex-start;
+    margin-top: 0.2rem;
+}
+
+.demo-case-outcome--found {
+    background: rgba(34,197,94,0.1);
+    color: #22c55e;
+    border: 1px solid rgba(34,197,94,0.25);
+}
+
+/* Auto-playing visualizer */
+.demo-visualizer {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.demo-viz-header {
+    padding: 1.1rem 1.4rem 0.9rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.demo-viz-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 0.2rem;
+    color: var(--text-primary);
+}
+
+.demo-viz-sub {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.demo-stage-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 1.4rem;
+    background: rgba(0,180,216,0.03);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.demo-stage-dots {
+    display: flex;
+    gap: 0.45rem;
+    flex-shrink: 0;
+}
+
+.demo-stage-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    cursor: pointer;
+    transition: all 0.35s;
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+.demo-stage-dot.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 7px rgba(0,180,216,0.45);
+}
+
+.demo-stage-dot:hover:not(.active) {
+    border-color: var(--accent);
+    background: rgba(0,180,216,0.2);
+}
+
+.demo-stage-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.77rem;
+    color: var(--accent);
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.demo-stage-narration {
+    padding: 0.85rem 1.4rem;
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    border-bottom: 1px solid var(--border-color);
+    min-height: 3.8rem;
+    transition: opacity 0.2s;
+}
+
+.demo-stage-narration.updating {
+    opacity: 0.25;
+}
+
+.demo-stage-narration.loading {
+    opacity: 0.5;
+    font-style: italic;
+}
+
+.demo-metrics-row {
+    display: flex;
+    padding: 0.75rem 1.4rem;
+    gap: 2rem;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.demo-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+}
+
+.demo-metric-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--accent);
+    transition: color 0.3s;
+}
+
+.demo-metric-value.warn   { color: #f59e0b; }
+.demo-metric-value.danger { color: #ef4444; }
+
+.demo-metric-label {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    opacity: 0.65;
+}
+
+.demo-topology-wrap {
+    background: #0d1117;
+    line-height: 0;
+}
+
+.demo-chart-wrap {
+    background: #0d1117;
+    border-top: 1px solid #1e293b;
+    line-height: 0;
+}
+
+.demo-ask-signal {
+    padding: 0.9rem 1.4rem 1.1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.demo-ask-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    opacity: 0.55;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.demo-ask-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.demo-ask-input {
+    flex: 1;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.48rem 0.85rem;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    font-family: inherit;
+    transition: border-color 0.15s;
+}
+
+.demo-ask-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.demo-ask-input::placeholder { opacity: 0.45; }
+
+.demo-ask-btn {
+    padding: 0.48rem 1rem;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+}
+
+.demo-ask-btn:hover { opacity: 0.85; }
+
+.demo-ask-response {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-top: 0.6rem;
+    min-height: 0;
+    transition: all 0.2s;
+}
+
+.demo-ask-response:empty { display: none; }
 
 /* ── Floating widget ── */
 .signal-float {

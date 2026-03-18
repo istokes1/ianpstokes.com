@@ -1079,6 +1079,27 @@
                 </div>
             </div>
 
+            <!-- Welcome screen (shown on first open per session) -->
+            <div class="signal-panel signal-welcome hidden" id="signal-welcome">
+                <div class="signal-welcome-robot" id="signal-welcome-robot">
+                    <!-- robot SVG injected by JS -->
+                </div>
+                <div class="signal-welcome-body">
+                    <p class="signal-welcome-intro">Hi, I'm <strong>SIGNAL</strong> — I'm here to help you explore Ian's background and experience.</p>
+                    <blockquote class="signal-welcome-quote">
+                        "I build systems that help people understand complexity — whether that's engineering platforms or, in this case, my own experience."
+                    </blockquote>
+                    <p class="signal-welcome-sub">Ask me anything or pick a starting point:</p>
+                    <div class="signal-welcome-chips">
+                        <button class="signal-welcome-chip" data-q="What industries has Ian worked in?">Industries &amp; sectors</button>
+                        <button class="signal-welcome-chip" data-q="What is Ian's strongest technical domain?">Technical expertise</button>
+                        <button class="signal-welcome-chip" data-q="Could Ian help scale an engineering team?">Leadership &amp; teams</button>
+                        <button class="signal-welcome-chip" data-q="What makes Ian's background unusual?">What makes him different</button>
+                    </div>
+                    <button class="signal-welcome-explore" id="signal-welcome-explore">Explore freely →</button>
+                </div>
+            </div>
+
             <!-- Career Guide -->
             <div class="signal-panel signal-chat" data-mode="career_guide">
                 <div class="signal-suggestions">
@@ -1113,76 +1134,175 @@
             <div class="signal-panel signal-explainer-teaser hidden" data-mode="systems_explainer">
                 <div class="signal-teaser-content">
                     <div class="signal-teaser-icon">⚙️</div>
-                    <h4 class="signal-teaser-title">Systems Complexity Demo</h4>
+                    <h4 class="signal-teaser-title">Thinking in Systems</h4>
                     <p class="signal-teaser-desc">
-                        An interactive visualiser showing how a real IoT scheduling problem
-                        becomes invisible at scale — and how Ian diagnosed it.
+                        Across every industry, Ian finds the same pattern: complex systems that fail in ways that weren't obvious at design time. The skill is seeing failure before it's visible.
                     </p>
                     <p class="signal-teaser-desc">
-                        RDCs · Gateways · Device Communication Manager · Timing collapse.
+                        GSM at 350 kph · IoT gateway collapse · Dynamic scheduling · Silent failures
                     </p>
                     <a href="#systems-demo" class="signal-teaser-btn" id="signal-open-demo">
-                        View interactive demo ↓
+                        See the problem animated ↓
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Systems Demo Section (full width, in-page) -->
+    <!-- Systems Demo Section -->
     <section class="section signal-demo-section" id="systems-demo">
         <div class="container">
             <div class="section-header">
                 <span class="section-number">⚙️</span>
-                <h2 class="section-title">Systems Complexity Demo</h2>
+                <h2 class="section-title">Thinking in Systems</h2>
                 <div class="section-line"></div>
             </div>
             <p class="section-intro">
-                A real problem Ian diagnosed at Inductosense. Adjust the sliders to see where
-                naïve fixed scheduling silently fails — and why dynamic scheduling is the solution.
+                Across every industry I've worked in, the same pattern emerges: complex systems that fail in ways that weren't obvious at design time. Finding those failure modes early — before they become expensive — is where the real engineering value is.
             </p>
-            <div class="signal-panel signal-explainer" data-mode="systems_explainer" style="border-radius:12px;">
-                <div class="signal-controls">
-                    <div class="signal-control-group">
-                        <div class="signal-control-label"><span>RDCs per Gateway</span><span class="signal-control-value" id="signal-val-rdcs">20</span></div>
-                        <input type="range" class="signal-slider" id="signal-slider-rdcs" min="1" max="95" value="20">
-                    </div>
-                    <div class="signal-control-group">
-                        <div class="signal-control-label"><span>Sensors per RDC</span><span class="signal-control-value" id="signal-val-sensors">4</span></div>
-                        <input type="range" class="signal-slider" id="signal-slider-sensors" min="1" max="8" value="4">
-                    </div>
-                    <div class="signal-control-group">
-                        <div class="signal-control-label"><span>Reading frequency</span><span class="signal-control-value" id="signal-val-freq">1/min</span></div>
-                        <input type="range" class="signal-slider" id="signal-slider-freq" min="1" max="60" value="1">
-                    </div>
-                    <div class="signal-control-group">
-                        <div class="signal-control-label"><span>Gateways</span><span class="signal-control-value" id="signal-val-gateways">1</span></div>
-                        <input type="range" class="signal-slider" id="signal-slider-gateways" min="1" max="8" value="1">
-                    </div>
-                    <div class="signal-control-group">
-                        <div class="signal-control-label"><span>Extraction time</span><span class="signal-control-value" id="signal-val-extraction">150ms</span></div>
-                        <input type="range" class="signal-slider" id="signal-slider-extraction" min="10" max="500" value="150">
-                    </div>
-                </div>
-                <div class="signal-metrics">
-                    <div class="signal-metric"><div class="signal-metric-value" id="signal-metric-readings">—</div><div class="signal-metric-label">Readings/min</div></div>
-                    <div class="signal-metric"><div class="signal-metric-value" id="signal-metric-util">—</div><div class="signal-metric-label">Gateway utilisation</div></div>
-                    <div class="signal-metric"><div class="signal-metric-value" id="signal-metric-queue">—</div><div class="signal-metric-label">Queue depth</div></div>
-                </div>
-                <div style="text-align:center;margin-bottom:1rem;font-size:0.78rem;color:var(--text-secondary);">
-                    Scheduling mode needed: <span class="signal-mode-badge" id="signal-metric-mode">FIXED</span>
-                </div>
-                <div class="signal-topology-wrap"><svg id="signal-topology" viewBox="0 0 600 220" height="220"></svg></div>
-                <div class="signal-chart-wrap"><canvas id="signal-timing-chart" width="600" height="180"></canvas></div>
-                <div class="signal-narration">
-                    <div class="signal-narration-label">// SIGNAL analysis</div>
-                    <div class="signal-narration-text">Adjust the sliders to see how system load changes.</div>
-                </div>
-                <div class="signal-explainer-ask">
-                    <input type="text" placeholder="Ask about this system…">
-                    <button>Ask →</button>
-                </div>
+
+            <!-- Philosophy -->
+            <div class="demo-philosophy">
+                <blockquote class="demo-quote">
+                    "Finding a bug while you're writing the code is the cheapest time to find it. The same is true of systems architecture, product design, and anything built at scale."
+                </blockquote>
+                <p class="demo-quote-context">
+                    I've applied this across telecoms, life safety, energy, and IoT — moving between industries and recognising the same failure patterns in different clothes. The skill isn't domain knowledge. It's knowing how to model what you can't see yet.
+                </p>
             </div>
+
+            <!-- Case study cards -->
+            <div class="demo-cases">
+
+                <!-- Case 1: GSM / High-speed rail -->
+                <div class="demo-case">
+                    <div class="demo-case-visual">
+                        <svg viewBox="0 0 220 90" width="100%" height="88" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Ground -->
+                            <line x1="0" y1="74" x2="220" y2="74" stroke="#1e293b" stroke-width="2"/>
+                            <!-- Tower 1 -->
+                            <line x1="28" y1="74" x2="28" y2="38" stroke="#c4920a" stroke-width="1.5"/>
+                            <polygon points="16,38 28,20 40,38" fill="none" stroke="#c4920a" stroke-width="1.3"/>
+                            <line x1="28" y1="30" x2="62" y2="54" stroke="#c4920a" stroke-width="0.9" stroke-dasharray="3,2" opacity="0.6"/>
+                            <!-- Tower 2 -->
+                            <line x1="192" y1="74" x2="192" y2="38" stroke="#c4920a" stroke-width="1.5"/>
+                            <polygon points="180,38 192,20 204,38" fill="none" stroke="#c4920a" stroke-width="1.3"/>
+                            <line x1="192" y1="30" x2="158" y2="54" stroke="#c4920a" stroke-width="0.9" stroke-dasharray="3,2" opacity="0.6"/>
+                            <!-- Train body -->
+                            <rect x="72" y="55" width="68" height="18" rx="3" fill="rgba(0,180,216,0.08)" stroke="#00b4d8" stroke-width="1.4"/>
+                            <!-- Train nose -->
+                            <path d="M140 55 L150 64 L140 73" fill="rgba(0,180,216,0.06)" stroke="#00b4d8" stroke-width="1.2"/>
+                            <!-- Wheels -->
+                            <circle cx="86" cy="74" r="5" fill="rgba(0,0,0,0.5)" stroke="#00b4d8" stroke-width="1.2"/>
+                            <circle cx="118" cy="74" r="5" fill="rgba(0,0,0,0.5)" stroke="#00b4d8" stroke-width="1.2"/>
+                            <!-- Speed indicator -->
+                            <text x="106" y="68" text-anchor="middle" fill="#00b4d8" font-family="JetBrains Mono,monospace" font-size="8">350 kph →</text>
+                            <!-- Motion lines -->
+                            <line x1="55" y1="61" x2="66" y2="61" stroke="#00b4d8" stroke-width="0.9" opacity="0.35"/>
+                            <line x1="50" y1="66" x2="66" y2="66" stroke="#00b4d8" stroke-width="0.9" opacity="0.25"/>
+                            <!-- Handoff drop zone -->
+                            <circle cx="110" cy="40" r="10" fill="rgba(239,68,68,0.12)" stroke="#ef4444" stroke-width="1" stroke-dasharray="2,2"/>
+                            <text x="110" y="37" text-anchor="middle" fill="#ef4444" font-family="JetBrains Mono,monospace" font-size="7">drop zone</text>
+                            <text x="110" y="56" text-anchor="middle" fill="#475569" font-family="JetBrains Mono,monospace" font-size="6">handoff window</text>
+                            <text x="110" y="63" text-anchor="middle" fill="#475569" font-family="JetBrains Mono,monospace" font-size="6">collapses at speed</text>
+                        </svg>
+                    </div>
+                    <div class="demo-case-body">
+                        <span class="demo-case-tag">Motorola · Global Telecoms</span>
+                        <h4 class="demo-case-title">GSM handoff at 350 kph</h4>
+                        <p class="demo-case-text">GSM wasn't designed for trains above 250 kph. At 350 kph, the handoff window between cells collapses. You can't put a real railway network in a test lab — so the failure has to be found by modelling how the system behaves at the edge of its design envelope, before a single metre of track is laid.</p>
+                        <div class="demo-case-outcome demo-case-outcome--found">Found at: modelling &amp; design phase ✓</div>
+                    </div>
+                </div>
+
+                <!-- Case 2: IoT gateway -->
+                <div class="demo-case">
+                    <div class="demo-case-visual">
+                        <svg viewBox="0 0 220 90" width="100%" height="88" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Sensors (left) -->
+                            <circle cx="18" cy="18" r="5" fill="none" stroke="#22c55e" stroke-width="1.3"/>
+                            <circle cx="18" cy="40" r="5" fill="none" stroke="#22c55e" stroke-width="1.3"/>
+                            <circle cx="18" cy="62" r="5" fill="none" stroke="#22c55e" stroke-width="1.3"/>
+                            <circle cx="36" cy="8"  r="5" fill="none" stroke="#22c55e" stroke-width="1.3"/>
+                            <circle cx="36" cy="72" r="5" fill="none" stroke="#22c55e" stroke-width="1.3"/>
+                            <!-- Lines sensor → gateway -->
+                            <line x1="23" y1="18" x2="72" y2="40" stroke="#1e293b" stroke-width="1"/>
+                            <line x1="23" y1="40" x2="72" y2="44" stroke="#1e293b" stroke-width="1"/>
+                            <line x1="23" y1="62" x2="72" y2="52" stroke="#1e293b" stroke-width="1"/>
+                            <line x1="41" y1="8"  x2="72" y2="38" stroke="#1e293b" stroke-width="1"/>
+                            <line x1="41" y1="72" x2="72" y2="54" stroke="#1e293b" stroke-width="1"/>
+                            <text x="10" y="86" fill="#475569" font-size="7" font-family="JetBrains Mono,monospace">+65 more RDCs</text>
+                            <!-- Gateway — saturated -->
+                            <rect x="72" y="32" width="46" height="28" rx="4" fill="rgba(239,68,68,0.08)" stroke="#ef4444" stroke-width="1.6"/>
+                            <text x="95" y="50" text-anchor="middle" fill="#ef4444" font-family="JetBrains Mono,monospace" font-size="11" font-weight="bold">GW</text>
+                            <circle cx="112" cy="34" r="6" fill="#ef4444" opacity="0.9"/>
+                            <text x="112" y="38" text-anchor="middle" fill="white" font-size="8" font-family="JetBrains Mono,monospace" font-weight="bold">!</text>
+                            <text x="95" y="26" text-anchor="middle" fill="#ef4444" font-family="JetBrains Mono,monospace" font-size="7">saturated</text>
+                            <!-- Dashed line to cloud showing drops -->
+                            <line x1="118" y1="46" x2="155" y2="46" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="2,4"/>
+                            <!-- Cloud / backend -->
+                            <rect x="155" y="33" width="46" height="26" rx="6" fill="rgba(0,180,216,0.06)" stroke="#00b4d8" stroke-width="1"/>
+                            <text x="178" y="50" text-anchor="middle" fill="#00b4d8" font-family="JetBrains Mono,monospace" font-size="8">cloud</text>
+                            <text x="178" y="72" text-anchor="middle" fill="#475569" font-family="JetBrains Mono,monospace" font-size="7">data gaps —</text>
+                            <text x="178" y="80" text-anchor="middle" fill="#475569" font-family="JetBrains Mono,monospace" font-size="7">no alarm raised</text>
+                        </svg>
+                    </div>
+                    <div class="demo-case-body">
+                        <span class="demo-case-tag">Industrial IoT · Sensor Networks</span>
+                        <h4 class="demo-case-title">The gateway that failed silently</h4>
+                        <p class="demo-case-text">A prototype product worked fine at small scale. As deployment grew, a fixed scheduling model caused the gateway to silently drop readings — no error, no alarm. The application reported healthy sensor counts. The data had never arrived. Visible only by modelling the timing behaviour at scale, before the product reached that deployment size.</p>
+                        <div class="demo-case-outcome demo-case-outcome--found">Found at: design review ✓</div>
+                    </div>
+                </div>
+
+            </div><!-- /demo-cases -->
+
+            <!-- Auto-playing visualisation -->
+            <div class="demo-visualizer">
+                <div class="demo-viz-header">
+                    <h3 class="demo-viz-title">The IoT problem, step by step</h3>
+                    <p class="demo-viz-sub">Watch how a healthy system silently becomes a failure — and how the diagnosis leads to a fix</p>
+                </div>
+
+                <div class="demo-stage-bar">
+                    <div class="demo-stage-dots" id="demo-stage-dots">
+                        <span class="demo-stage-dot active" title="The system at launch"></span>
+                        <span class="demo-stage-dot" title="Early growth"></span>
+                        <span class="demo-stage-dot" title="The hidden threshold"></span>
+                        <span class="demo-stage-dot" title="Silent failure"></span>
+                        <span class="demo-stage-dot" title="The fix"></span>
+                    </div>
+                    <div class="demo-stage-label" id="demo-stage-label">The system at launch</div>
+                </div>
+
+                <div class="demo-stage-narration" id="demo-stage-narration">
+                    At launch, everything works. Five field devices, one gateway, readings arriving cleanly every minute. The product ships.
+                </div>
+
+                <div class="demo-metrics-row">
+                    <div class="demo-metric"><div class="demo-metric-value" id="signal-metric-readings">—</div><div class="demo-metric-label">Readings / min</div></div>
+                    <div class="demo-metric"><div class="demo-metric-value" id="signal-metric-util">—</div><div class="demo-metric-label">Gateway load</div></div>
+                    <div class="demo-metric"><div class="demo-metric-value" id="signal-metric-queue">—</div><div class="demo-metric-label">Queue depth</div></div>
+                    <div class="demo-metric"><div class="demo-metric-value signal-mode-badge" id="signal-metric-mode">FIXED</div><div class="demo-metric-label">Scheduling</div></div>
+                </div>
+
+                <div class="demo-topology-wrap">
+                    <svg id="signal-topology" viewBox="0 0 600 220" height="220" style="width:100%;display:block;"></svg>
+                </div>
+                <div class="demo-chart-wrap">
+                    <canvas id="signal-timing-chart" width="600" height="150" style="width:100%;display:block;"></canvas>
+                </div>
+
+                <div class="demo-ask-signal">
+                    <span class="demo-ask-label">// Ask SIGNAL about this</span>
+                    <div class="demo-ask-row">
+                        <input type="text" class="demo-ask-input" id="demo-ask-input" placeholder="Ask about this system or Ian's approach to systems problems…">
+                        <button class="demo-ask-btn" id="demo-ask-btn">Ask →</button>
+                    </div>
+                    <div class="demo-ask-response" id="demo-ask-response"></div>
+                </div>
+            </div><!-- /demo-visualizer -->
+
         </div>
     </section>
 

@@ -165,57 +165,89 @@
             .replace(/(.+)$/, '$1</p>');
     }
 
-    // ── Systems Explainer ────────────────────────────────────
+    // ── Systems Demo — auto-play ─────────────────────────────
     function setupSystemsExplainer() {
-        const panel = document.querySelector('[data-mode="systems_explainer"].signal-panel');
-        if (!panel) return;
+        if (!document.getElementById('signal-topology')) return;
 
-        // Wire sliders
-        const sliders = {
-            rdcs:           panel.querySelector('#signal-slider-rdcs'),
-            sensors:        panel.querySelector('#signal-slider-sensors'),
-            readFreq:       panel.querySelector('#signal-slider-freq'),
-            gateways:       panel.querySelector('#signal-slider-gateways'),
-            extractionMs:   panel.querySelector('#signal-slider-extraction')
-        };
+        const STAGES = [
+            {
+                label: 'The system at launch',
+                sim: { rdcs: 5, sensors: 2, readFreqPerMin: 1, gateways: 1, extractionMs: 150 },
+                narration: 'At launch, everything works. Five field devices, one gateway, readings arriving cleanly every minute. The product ships. No one sees a problem — because there isn\'t one yet.'
+            },
+            {
+                label: 'Early growth looks healthy',
+                sim: { rdcs: 18, sensors: 3, readFreqPerMin: 1, gateways: 1, extractionMs: 150 },
+                narration: 'More sensors are deployed. The gateway handles it. No alarms, no errors. The dashboard looks fine. But gateway utilisation is climbing quietly toward a threshold nobody has modelled.'
+            },
+            {
+                label: 'The invisible threshold',
+                sim: { rdcs: 42, sensors: 4, readFreqPerMin: 1, gateways: 1, extractionMs: 150 },
+                narration: 'At 42 devices the gateway is over 70% utilised. The system still appears to function — but devices are beginning to queue. Some readings arrive late. There\'s no error to see.'
+            },
+            {
+                label: 'Silent failure at scale',
+                sim: { rdcs: 75, sensors: 4, readFreqPerMin: 1, gateways: 1, extractionMs: 150 },
+                narration: 'The gateway is now completely saturated. Readings are silently dropped — no error, no alarm. The application reports healthy sensor counts. The data was never there. This is the failure the product was heading toward.'
+            },
+            {
+                label: 'Diagnosis: dynamic scheduling',
+                sim: { rdcs: 75, sensors: 4, readFreqPerMin: 1, gateways: 4, extractionMs: 150 },
+                narration: 'The fix isn\'t more hardware — it\'s understanding the scheduling model. Dynamic distribution across gateways makes utilisation predictable at any scale. Caught at design review. Cost to fix: near zero.'
+            }
+        ];
 
-        const valueEls = {
-            rdcs:           panel.querySelector('#signal-val-rdcs'),
-            sensors:        panel.querySelector('#signal-val-sensors'),
-            readFreq:       panel.querySelector('#signal-val-freq'),
-            gateways:       panel.querySelector('#signal-val-gateways'),
-            extractionMs:   panel.querySelector('#signal-val-extraction')
-        };
+        let currentStage = 0;
+        let autoPlayTimer = null;
 
-        Object.entries(sliders).forEach(([key, slider]) => {
-            if (!slider) return;
-            slider.addEventListener('input', () => {
-                const val = parseInt(slider.value);
-                state.simulator[key] = key === 'readFreq' ? val : val;
-                if (valueEls[key]) valueEls[key].textContent = formatSliderValue(key, val);
-                updateExplainer(panel);
-                scheduleNarration(panel);
-            });
+        const dots       = document.querySelectorAll('.demo-stage-dot');
+        const labelEl    = document.getElementById('demo-stage-label');
+        const narrationEl = document.getElementById('demo-stage-narration');
+
+        function setStage(i) {
+            currentStage = i;
+            const stage = STAGES[i];
+            Object.assign(state.simulator, stage.sim);
+
+            if (labelEl) labelEl.textContent = stage.label;
+            if (narrationEl) {
+                narrationEl.classList.add('updating');
+                setTimeout(() => {
+                    narrationEl.textContent = stage.narration;
+                    narrationEl.classList.remove('updating');
+                }, 180);
+            }
+            dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+            updateExplainer();
+        }
+
+        function advance() { setStage((currentStage + 1) % STAGES.length); }
+        function startAutoPlay() { stopAutoPlay(); autoPlayTimer = setInterval(advance, 4800); }
+        function stopAutoPlay() { clearInterval(autoPlayTimer); }
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => { stopAutoPlay(); setStage(i); startAutoPlay(); });
         });
 
-        // Initial render
-        updateExplainer(panel);
-
-        // Ask-about-this input
-        const askInput = panel.querySelector('.signal-explainer-ask input');
-        const askBtn = panel.querySelector('.signal-explainer-ask button');
+        const askInput = document.getElementById('demo-ask-input');
+        const askBtn   = document.getElementById('demo-ask-btn');
+        const askResp  = document.getElementById('demo-ask-response');
         if (askInput && askBtn) {
-            askBtn.addEventListener('click', () => askAboutSystem(panel, askInput));
-            askInput.addEventListener('keydown', e => {
-                if (e.key === 'Enter') askAboutSystem(panel, askInput);
-            });
+            const doAsk = () => {
+                const text = askInput.value.trim();
+                if (!text) return;
+                stopAutoPlay();
+                askInput.value = '';
+                askAboutSystem(text, askResp);
+            };
+            askBtn.addEventListener('click', doAsk);
+            askInput.addEventListener('keydown', e => { if (e.key === 'Enter') doAsk(); });
+            askInput.addEventListener('focus', stopAutoPlay);
+            askInput.addEventListener('blur', () => setTimeout(startAutoPlay, 4000));
         }
-    }
 
-    function formatSliderValue(key, val) {
-        if (key === 'readFreq') return val === 1 ? '1/min' : val < 60 ? `${val}/min` : '1/hr';
-        if (key === 'extractionMs') return `${val}ms`;
-        return val;
+        setStage(0);
+        startAutoPlay();
     }
 
     function computeSystemState(s) {
@@ -240,42 +272,41 @@
         };
     }
 
-    function updateExplainer(panel) {
+    function updateExplainer() {
         const computed = computeSystemState(state.simulator);
 
-        // Update metrics
-        const metricReadings = panel.querySelector('#signal-metric-readings');
-        const metricUtil = panel.querySelector('#signal-metric-util');
-        const metricQueue = panel.querySelector('#signal-metric-queue');
-        const metricMode = panel.querySelector('#signal-metric-mode');
+        const metricReadings = document.getElementById('signal-metric-readings');
+        const metricUtil     = document.getElementById('signal-metric-util');
+        const metricQueue    = document.getElementById('signal-metric-queue');
+        const metricMode     = document.getElementById('signal-metric-mode');
 
         if (metricReadings) metricReadings.textContent = computed.readingsPerMin.toLocaleString();
 
         if (metricUtil) {
             metricUtil.textContent = `${computed.utilisationPct}%`;
-            metricUtil.className = 'signal-metric-value';
+            metricUtil.className = 'demo-metric-value';
             if (computed.utilisationPct > 100) metricUtil.classList.add('danger');
             else if (computed.utilisationPct > 65) metricUtil.classList.add('warn');
         }
 
         if (metricQueue) {
             metricQueue.textContent = computed.queueDepth > 9999 ? '∞' : computed.queueDepth.toLocaleString();
-            metricQueue.className = 'signal-metric-value';
+            metricQueue.className = 'demo-metric-value';
             if (computed.status === 'OVERLOADED') metricQueue.classList.add('danger');
             else if (computed.status === 'STRESSED') metricQueue.classList.add('warn');
         }
 
         if (metricMode) {
             metricMode.textContent = computed.schedulingMode;
-            metricMode.className = `signal-mode-badge${computed.status === 'OVERLOADED' ? ' overloaded' : computed.schedulingMode === 'DYNAMIC' ? ' dynamic' : ''}`;
+            metricMode.className = `demo-metric-value signal-mode-badge${computed.status === 'OVERLOADED' ? ' overloaded' : computed.schedulingMode === 'DYNAMIC' ? ' dynamic' : ''}`;
         }
 
-        drawTopology(panel, computed);
-        drawTimingChart(panel, computed);
+        drawTopology(computed);
+        drawTimingChart(computed);
     }
 
-    function drawTopology(panel, computed) {
-        const svg = panel.querySelector('#signal-topology');
+    function drawTopology(computed) {
+        const svg = document.getElementById('signal-topology');
         if (!svg) return;
 
         const s = state.simulator;
@@ -355,8 +386,8 @@
         svg.innerHTML = html;
     }
 
-    function drawTimingChart(panel, computed) {
-        const canvas = panel.querySelector('#signal-timing-chart');
+    function drawTimingChart(computed) {
+        const canvas = document.getElementById('signal-timing-chart');
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
@@ -447,57 +478,12 @@
         });
     }
 
-    function scheduleNarration(panel) {
-        clearTimeout(state.narrationDebounce);
-        const narrationEl = panel.querySelector('.signal-narration-text');
-        if (narrationEl) {
-            narrationEl.className = 'signal-narration-text loading';
-            narrationEl.textContent = 'Analysing';
-        }
-        state.narrationDebounce = setTimeout(() => fetchNarration(panel), 900);
-    }
-
-    async function fetchNarration(panel) {
-        const narrationEl = panel.querySelector('.signal-narration-text');
-        if (!narrationEl) return;
-
-        const s = state.simulator;
-        const computed = computeSystemState(s);
-
-        try {
-            const res = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    mode: 'systems_explainer',
-                    simulator_state: { ...s, ...computed },
-                    messages: [{
-                        role: 'user',
-                        content: `The visitor has just set the simulator to: ${s.rdcs} RDCs, ${s.sensors} sensors per RDC, ${s.readFreqPerMin} reading(s) per minute, ${s.gateways} gateway(s), ${s.extractionMs}ms extraction time. System utilisation is ${computed.utilisationPct}%, status is ${computed.status}. Narrate what this means in 2-3 sentences, as Ian would explain it to a client or hiring manager. Be concrete and direct.`
-                    }]
-                })
-            });
-
-            if (!res.ok) throw new Error('API error');
-            const data = await res.json();
-            narrationEl.className = 'signal-narration-text';
-            narrationEl.textContent = data.text || '';
-
-        } catch {
-            narrationEl.className = 'signal-narration-text';
-            narrationEl.textContent = 'Adjust the sliders to see how system load changes.';
-        }
-    }
-
-    async function askAboutSystem(panel, input) {
-        const text = input.value.trim();
+    async function askAboutSystem(text, responseEl) {
         if (!text || state.isLoading) return;
-        input.value = '';
 
-        const narrationEl = panel.querySelector('.signal-narration-text');
-        if (narrationEl) {
-            narrationEl.className = 'signal-narration-text loading';
-            narrationEl.textContent = 'Thinking';
+        if (responseEl) {
+            responseEl.classList.add('loading');
+            responseEl.textContent = 'Thinking…';
         }
 
         const s = state.simulator;
@@ -511,23 +497,19 @@
                 body: JSON.stringify({
                     mode: 'systems_explainer',
                     simulator_state: { ...s, ...computed },
-                    messages: [{
-                        role: 'user',
-                        content: text
-                    }]
+                    messages: [{ role: 'user', content: text }]
                 })
             });
-
             if (!res.ok) throw new Error('API error');
             const data = await res.json();
-            if (narrationEl) {
-                narrationEl.className = 'signal-narration-text';
-                narrationEl.textContent = data.text || '';
+            if (responseEl) {
+                responseEl.classList.remove('loading');
+                responseEl.textContent = data.text || '';
             }
         } catch {
-            if (narrationEl) {
-                narrationEl.className = 'signal-narration-text';
-                narrationEl.textContent = 'Something went wrong. Please try again.';
+            if (responseEl) {
+                responseEl.classList.remove('loading');
+                responseEl.textContent = 'Something went wrong. Please try again.';
             }
         } finally {
             state.isLoading = false;
@@ -541,30 +523,90 @@
 
         const robot = document.createElement('div');
         robot.className = 'signal-robot';
+        // Tracked inspection robot — WALL-E / ExRobotics style
         robot.innerHTML = `
         <div class="robot-bob">
-          <svg width="30" height="40" viewBox="0 0 30 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- antenna -->
-            <line x1="15" y1="1" x2="15" y2="6" stroke="#00b4d8" stroke-width="1.5" stroke-linecap="round"/>
-            <circle cx="15" cy="1" r="2" fill="#00b4d8"/>
-            <!-- head -->
-            <rect x="8" y="6" width="14" height="11" rx="2" stroke="#00b4d8" stroke-width="1.3" fill="rgba(0,180,216,0.08)"/>
-            <!-- eyes -->
-            <circle cx="12" cy="12" r="1.5" fill="#00b4d8"/>
-            <circle cx="18" cy="12" r="1.5" fill="#00b4d8"/>
-            <!-- body -->
-            <rect x="5" y="19" width="20" height="13" rx="2" stroke="#00b4d8" stroke-width="1.3" fill="rgba(0,180,216,0.06)"/>
-            <!-- status light -->
-            <circle cx="15" cy="25" r="2" fill="#22c55e"/>
-            <!-- legs -->
-            <g class="robot-leg-l"><line x1="9" y1="32" x2="8" y2="40" stroke="#00b4d8" stroke-width="2" stroke-linecap="round"/></g>
-            <g class="robot-leg-r"><line x1="21" y1="32" x2="22" y2="40" stroke="#00b4d8" stroke-width="2" stroke-linecap="round"/></g>
+          <svg width="94" height="66" viewBox="0 0 94 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+            <!-- Camera mast (static post) -->
+            <rect x="42" y="10" width="4" height="13" rx="1"
+                  fill="rgba(0,180,216,0.18)" stroke="#00b4d8" stroke-width="1"/>
+
+            <!-- Camera sensor head (tilts on arrival) -->
+            <g class="robot-head">
+              <!-- sensor housing -->
+              <rect x="31" y="1" width="24" height="11" rx="2"
+                    fill="rgba(0,180,216,0.14)" stroke="#00b4d8" stroke-width="1.3"/>
+              <!-- main lens -->
+              <circle cx="40" cy="6" r="3.8" fill="rgba(0,180,216,0.18)" stroke="#00b4d8" stroke-width="1.2"/>
+              <circle cx="40" cy="6" r="1.9" fill="#00b4d8" opacity="0.85"/>
+              <circle cx="39" cy="5" r="0.7" fill="white" opacity="0.7"/>
+              <!-- forward lamp (like ExR-2 light) -->
+              <rect x="51" y="3" width="3" height="6" rx="1" fill="white" opacity="0.75"/>
+              <!-- status dot -->
+              <circle cx="35" cy="6" r="1.2" fill="#22c55e" opacity="0.9"/>
+            </g>
+
+            <!-- Body — main panel, amber/yellow ExR-2 coloring -->
+            <rect x="9" y="22" width="76" height="22" rx="3"
+                  fill="rgba(196,146,10,0.10)" stroke="#c4920a" stroke-width="1.4"/>
+            <!-- curved dome top (ExR-2 black cowl silhouette) -->
+            <path d="M18 22 Q47 14 76 22"
+                  fill="rgba(0,0,0,0.25)" stroke="#c4920a" stroke-width="1" opacity="0.8"/>
+            <!-- louvred ventilation panel (left side) -->
+            <line x1="15" y1="27" x2="15" y2="39" stroke="#c4920a" stroke-width="1" opacity="0.45"/>
+            <line x1="19" y1="27" x2="19" y2="39" stroke="#c4920a" stroke-width="1" opacity="0.45"/>
+            <line x1="23" y1="27" x2="23" y2="39" stroke="#c4920a" stroke-width="1" opacity="0.45"/>
+            <line x1="27" y1="27" x2="27" y2="39" stroke="#c4920a" stroke-width="1" opacity="0.45"/>
+            <!-- front sensor bar -->
+            <rect x="79" y="28" width="4" height="10" rx="1"
+                  fill="rgba(0,180,216,0.12)" stroke="#00b4d8" stroke-width="1"/>
+            <circle cx="81" cy="33" r="1.4" fill="#00b4d8" opacity="0.85"/>
+            <!-- status lights (right of body) -->
+            <circle cx="60" cy="29" r="1.4" fill="#22c55e" opacity="0.9"/>
+            <circle cx="66" cy="29" r="1.4" fill="#00b4d8" opacity="0.65"/>
+            <circle cx="72" cy="29" r="1.4" fill="#00b4d8" opacity="0.45"/>
+
+            <!-- Track assembly (draw before wheels so wheels sit on top) -->
+            <rect x="2" y="44" width="90" height="20" rx="10"
+                  fill="rgba(8,12,18,0.75)" stroke="#00b4d8" stroke-width="1.4"/>
+            <!-- tread stripes — staggered pulses simulate rolling -->
+            <line class="robot-tread-anim" x1="23" y1="44" x2="23" y2="64"
+                  stroke="#00b4d8" stroke-width="1.1" style="animation-delay:0s"/>
+            <line class="robot-tread-anim" x1="32" y1="44" x2="32" y2="64"
+                  stroke="#00b4d8" stroke-width="1.1" style="animation-delay:0.12s"/>
+            <line class="robot-tread-anim" x1="41" y1="44" x2="41" y2="64"
+                  stroke="#00b4d8" stroke-width="1.1" style="animation-delay:0.24s"/>
+            <line class="robot-tread-anim" x1="50" y1="44" x2="50" y2="64"
+                  stroke="#00b4d8" stroke-width="1.1" style="animation-delay:0.36s"/>
+            <line class="robot-tread-anim" x1="59" y1="44" x2="59" y2="64"
+                  stroke="#00b4d8" stroke-width="1.1" style="animation-delay:0.48s"/>
+            <line class="robot-tread-anim" x1="68" y1="44" x2="68" y2="64"
+                  stroke="#00b4d8" stroke-width="1.1" style="animation-delay:0.60s"/>
+            <line class="robot-tread-anim" x1="77" y1="44" x2="77" y2="64"
+                  stroke="#00b4d8" stroke-width="1.1" style="animation-delay:0.72s"/>
+
+            <!-- Front drive wheel — spoked like ExR-2 -->
+            <circle cx="12" cy="54" r="10" fill="rgba(8,12,18,0.85)" stroke="#00b4d8" stroke-width="1.4"/>
+            <circle cx="12" cy="54" r="4.5" fill="rgba(0,180,216,0.14)" stroke="#00b4d8" stroke-width="1"/>
+            <line x1="12" y1="45" x2="12" y2="63" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+            <line x1="3"  y1="54" x2="21" y2="54" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+            <line x1="5"  y1="47" x2="19" y2="61" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+            <line x1="19" y1="47" x2="5"  y2="61" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+
+            <!-- Rear drive wheel — spoked -->
+            <circle cx="82" cy="54" r="10" fill="rgba(8,12,18,0.85)" stroke="#00b4d8" stroke-width="1.4"/>
+            <circle cx="82" cy="54" r="4.5" fill="rgba(0,180,216,0.14)" stroke="#00b4d8" stroke-width="1"/>
+            <line x1="82" y1="45" x2="82" y2="63" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+            <line x1="73" y1="54" x2="91" y2="54" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+            <line x1="75" y1="47" x2="89" y2="61" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+            <line x1="89" y1="47" x2="75" y2="61" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
           </svg>
         </div>`;
         document.body.appendChild(robot);
 
         const btn = document.getElementById('signal-float-btn');
-        const targetRight = 130; // px from right — just left of the button
+        const targetRight = 150; // px from right — just left of the button
 
         // Delay then start walk
         setTimeout(() => {
@@ -582,12 +624,13 @@
                 });
             });
 
-            // Arrived — stop bob, pulse button
+            // Arrived — stop walking, tilt head up toward button, then pulse button
             setTimeout(() => {
                 robot.classList.remove('walking');
+                robot.classList.add('arrived');
                 btn?.classList.add('robot-arrived');
 
-                // Fade robot out
+                // Fade robot out after the head-tilt moment lands
                 setTimeout(() => {
                     robot.style.transition = 'opacity 0.8s';
                     robot.style.opacity = '0';
@@ -595,11 +638,79 @@
                         robot.remove();
                         localStorage.setItem('signal-robot-shown', '1');
                     }, 800);
-                }, 1200);
+                }, 1800);
 
             }, 3300);
 
         }, 2800); // wait for page to settle
+    }
+
+    // ── Welcome screen ───────────────────────────────────────
+    function setupWelcome() {
+        const welcome = document.getElementById('signal-welcome');
+        if (!welcome) return;
+
+        // Inject the mini robot SVG (same design, static/no animation)
+        const robotSlot = document.getElementById('signal-welcome-robot');
+        if (robotSlot) {
+            robotSlot.innerHTML = `
+            <svg width="94" height="66" viewBox="0 0 94 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="42" y="10" width="4" height="13" rx="1" fill="rgba(0,180,216,0.18)" stroke="#00b4d8" stroke-width="1"/>
+              <rect x="31" y="1" width="24" height="11" rx="2" fill="rgba(0,180,216,0.14)" stroke="#00b4d8" stroke-width="1.3"/>
+              <circle cx="40" cy="6" r="3.8" fill="rgba(0,180,216,0.18)" stroke="#00b4d8" stroke-width="1.2"/>
+              <circle cx="40" cy="6" r="1.9" fill="#00b4d8" opacity="0.85"/>
+              <circle cx="39" cy="5" r="0.7" fill="white" opacity="0.7"/>
+              <rect x="51" y="3" width="3" height="6" rx="1" fill="white" opacity="0.75"/>
+              <circle cx="35" cy="6" r="1.2" fill="#22c55e" opacity="0.9"/>
+              <rect x="9" y="22" width="76" height="22" rx="3" fill="rgba(196,146,10,0.10)" stroke="#c4920a" stroke-width="1.4"/>
+              <path d="M18 22 Q47 14 76 22" fill="rgba(0,0,0,0.25)" stroke="#c4920a" stroke-width="1" opacity="0.8"/>
+              <line x1="15" y1="27" x2="15" y2="39" stroke="#c4920a" stroke-width="1" opacity="0.45"/>
+              <line x1="19" y1="27" x2="19" y2="39" stroke="#c4920a" stroke-width="1" opacity="0.45"/>
+              <line x1="23" y1="27" x2="23" y2="39" stroke="#c4920a" stroke-width="1" opacity="0.45"/>
+              <line x1="27" y1="27" x2="27" y2="39" stroke="#c4920a" stroke-width="1" opacity="0.45"/>
+              <rect x="79" y="28" width="4" height="10" rx="1" fill="rgba(0,180,216,0.12)" stroke="#00b4d8" stroke-width="1"/>
+              <circle cx="81" cy="33" r="1.4" fill="#00b4d8" opacity="0.85"/>
+              <circle cx="60" cy="29" r="1.4" fill="#22c55e" opacity="0.9"/>
+              <circle cx="66" cy="29" r="1.4" fill="#00b4d8" opacity="0.65"/>
+              <circle cx="72" cy="29" r="1.4" fill="#00b4d8" opacity="0.45"/>
+              <rect x="2" y="44" width="90" height="20" rx="10" fill="rgba(8,12,18,0.75)" stroke="#00b4d8" stroke-width="1.4"/>
+              <circle cx="12" cy="54" r="10" fill="rgba(8,12,18,0.85)" stroke="#00b4d8" stroke-width="1.4"/>
+              <circle cx="12" cy="54" r="4.5" fill="rgba(0,180,216,0.14)" stroke="#00b4d8" stroke-width="1"/>
+              <line x1="12" y1="45" x2="12" y2="63" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+              <line x1="3" y1="54" x2="21" y2="54" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+              <line x1="5" y1="47" x2="19" y2="61" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+              <line x1="19" y1="47" x2="5" y2="61" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+              <circle cx="82" cy="54" r="10" fill="rgba(8,12,18,0.85)" stroke="#00b4d8" stroke-width="1.4"/>
+              <circle cx="82" cy="54" r="4.5" fill="rgba(0,180,216,0.14)" stroke="#00b4d8" stroke-width="1"/>
+              <line x1="82" y1="45" x2="82" y2="63" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+              <line x1="73" y1="54" x2="91" y2="54" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+              <line x1="75" y1="47" x2="89" y2="61" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+              <line x1="89" y1="47" x2="75" y2="61" stroke="#00b4d8" stroke-width="0.9" opacity="0.5"/>
+            </svg>`;
+        }
+
+        // Dismiss and go straight to career guide, optionally firing a preset question
+        function dismissWelcome(question) {
+            sessionStorage.setItem('signal-welcomed', '1');
+            switchMode('career_guide'); // also hides welcome (no data-mode match)
+            if (question) {
+                // Small delay so the panel transition completes first
+                setTimeout(() => {
+                    const panel = document.querySelector('.signal-panel[data-mode="career_guide"]');
+                    const input = panel?.querySelector('.signal-input');
+                    if (input) {
+                        input.value = question;
+                        panel.querySelector('.signal-send-btn')?.click();
+                    }
+                }, 80);
+            }
+        }
+
+        document.getElementById('signal-welcome-explore')?.addEventListener('click', () => dismissWelcome(null));
+
+        welcome.querySelectorAll('.signal-welcome-chip').forEach(chip => {
+            chip.addEventListener('click', () => dismissWelcome(chip.dataset.q));
+        });
     }
 
     // ── Floating widget open/close ───────────────────────────
@@ -608,13 +719,25 @@
         const panel = document.getElementById('signal-float-panel');
         const closeBtn = document.getElementById('signal-float-close');
         const demoLink = document.getElementById('signal-open-demo');
+        const welcome = document.getElementById('signal-welcome');
 
         if (!btn || !panel) return;
 
         btn.addEventListener('click', () => {
             const isOpen = panel.classList.contains('open');
-            panel.classList.toggle('open', !isOpen);
-            panel.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+            if (isOpen) {
+                panel.classList.remove('open');
+                panel.setAttribute('aria-hidden', 'true');
+            } else {
+                panel.classList.add('open');
+                panel.setAttribute('aria-hidden', 'false');
+                // Show welcome if not yet seen this session
+                if (welcome && !sessionStorage.getItem('signal-welcomed')) {
+                    welcome.classList.remove('hidden');
+                    // Hide the mode panels while welcome is shown
+                    document.querySelectorAll('.signal-panel:not(#signal-welcome)').forEach(p => p.classList.add('hidden'));
+                }
+            }
         });
 
         closeBtn?.addEventListener('click', () => {
@@ -641,6 +764,7 @@
     // ── Boot ─────────────────────────────────────────────────
     function init() {
         setupRobot();
+        setupWelcome();
         setupFloat();
         setupModeSwitcher();
         setupChatPanel('career_guide');
