@@ -1,5 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
-import kb from '../../data/knowledge-base.json' assert { type: 'json' };
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const kb = require('../../data/knowledge-base.json');
 
 // Rate limiting — simple in-memory store
 const rateLimitStore = new Map();
