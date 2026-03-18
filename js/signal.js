@@ -42,14 +42,6 @@
         narrationDebounce: null
     };
 
-    // ── Init ─────────────────────────────────────────────────
-    function init() {
-        setupModeSwitcher();
-        setupChatPanel('career_guide');
-        setupChatPanel('discovery_guide');
-        setupSystemsExplainer();
-    }
-
     // ── Mode Switcher ────────────────────────────────────────
     function setupModeSwitcher() {
         document.querySelectorAll('.signal-mode-btn').forEach(btn => {
@@ -542,7 +534,51 @@
         }
     }
 
+    // ── Floating widget open/close ───────────────────────────
+    function setupFloat() {
+        const btn = document.getElementById('signal-float-btn');
+        const panel = document.getElementById('signal-float-panel');
+        const closeBtn = document.getElementById('signal-float-close');
+        const demoLink = document.getElementById('signal-open-demo');
+
+        if (!btn || !panel) return;
+
+        btn.addEventListener('click', () => {
+            const isOpen = panel.classList.contains('open');
+            panel.classList.toggle('open', !isOpen);
+            panel.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+        });
+
+        closeBtn?.addEventListener('click', () => {
+            panel.classList.remove('open');
+            panel.setAttribute('aria-hidden', 'true');
+        });
+
+        // Close on outside click
+        document.addEventListener('click', (e) => {
+            if (!document.getElementById('signal-float')?.contains(e.target)) {
+                panel.classList.remove('open');
+                panel.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        // Systems demo link — close panel and scroll
+        demoLink?.addEventListener('click', (e) => {
+            e.preventDefault();
+            panel.classList.remove('open');
+            document.getElementById('systems-demo')?.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
     // ── Boot ─────────────────────────────────────────────────
+    function init() {
+        setupFloat();
+        setupModeSwitcher();
+        setupChatPanel('career_guide');
+        setupChatPanel('discovery_guide');
+        setupSystemsExplainer();
+    }
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
