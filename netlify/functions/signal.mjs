@@ -1,20 +1,11 @@
-import Anthropic from '@anthropic-ai/sdk';
-import { createRequire } from 'module';
+// esbuild bundles this to CJS — use require() throughout
+// JSON is inlined at bundle time so no runtime path issues
+const Anthropic = require('@anthropic-ai/sdk');
+const kb = require('../../data/knowledge-base.json');
 
-console.log('[SIGNAL] Function module loading...');
+console.log('[SIGNAL] Loaded. Employers:', kb.employers?.length, '| SDK:', !!Anthropic);
 
-let kb;
-try {
-    const require = createRequire(import.meta.url);
-    kb = require('../../data/knowledge-base.json');
-    console.log('[SIGNAL] Knowledge base loaded OK, employers:', kb.employers?.length);
-} catch (err) {
-    console.error('[SIGNAL] Failed to load knowledge base:', err.message);
-    console.error('[SIGNAL] import.meta.url:', import.meta.url);
-    throw err;
-}
-
-// Rate limiting — simple in-memory store
+// Rate limiting
 const rateLimitStore = new Map();
 const RATE_LIMIT = 30;
 const RATE_WINDOW_MS = 60 * 60 * 1000;
@@ -86,7 +77,7 @@ RULES:
 CONTACT: Email ${identity.contact.email} | LinkedIn ${identity.contact.linkedin}`;
 }
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
     const corsHeaders = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
@@ -139,16 +130,9 @@ export const handler = async (event) => {
     }
 
     try {
-        console.log('[SIGNAL] Mode:', safeMode, '| Messages:', conversationMessages.length);
-        console.log('[SIGNAL] API key present:', !!process.env.ANTHROPIC_API_KEY);
-
-        if (!process.env.ANTHROPIC_API_KEY) {
-            throw new Error('ANTHROPIC_API_KEY environment variable is not set');
-        }
+        console.log('[SIGNAL] Mode:', safeMode, '| Key present:', !!process.env.ANTHROPIC_API_KEY);
 
         const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-        console.log('[SIGNAL] Anthropic client created, calling API...');
-
         const response = await client.messages.create({
             model: 'claude-haiku-4-5-20251001',
             max_tokens: 600,
@@ -156,6 +140,7 @@ export const handler = async (event) => {
             messages: conversationMessages
         });
 
+        console.log('[SIGNAL] OK. Stop reason:', response.stop_reason);
         return {
             statusCode: 200,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -163,10 +148,7 @@ export const handler = async (event) => {
         };
 
     } catch (err) {
-        console.error('[SIGNAL] Error type:', err.constructor?.name);
-        console.error('[SIGNAL] Error message:', err.message);
-        console.error('[SIGNAL] Error status:', err.status);
-        console.error('[SIGNAL] Stack:', err.stack?.split('\n').slice(0,4).join('\n'));
+        console.error('[SIGNAL] Error:', err.constructor?.name, err.message, 'status:', err.status);
         return {
             statusCode: 500,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
