@@ -534,6 +534,74 @@
         }
     }
 
+    // ── Robot intro ─────────────────────────────────────────
+    function setupRobot() {
+        // Only ever show once per browser
+        if (localStorage.getItem('signal-robot-shown')) return;
+
+        const robot = document.createElement('div');
+        robot.className = 'signal-robot';
+        robot.innerHTML = `
+        <div class="robot-bob">
+          <svg width="30" height="40" viewBox="0 0 30 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- antenna -->
+            <line x1="15" y1="1" x2="15" y2="6" stroke="#00b4d8" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="15" cy="1" r="2" fill="#00b4d8"/>
+            <!-- head -->
+            <rect x="8" y="6" width="14" height="11" rx="2" stroke="#00b4d8" stroke-width="1.3" fill="rgba(0,180,216,0.08)"/>
+            <!-- eyes -->
+            <circle cx="12" cy="12" r="1.5" fill="#00b4d8"/>
+            <circle cx="18" cy="12" r="1.5" fill="#00b4d8"/>
+            <!-- body -->
+            <rect x="5" y="19" width="20" height="13" rx="2" stroke="#00b4d8" stroke-width="1.3" fill="rgba(0,180,216,0.06)"/>
+            <!-- status light -->
+            <circle cx="15" cy="25" r="2" fill="#22c55e"/>
+            <!-- legs -->
+            <g class="robot-leg-l"><line x1="9" y1="32" x2="8" y2="40" stroke="#00b4d8" stroke-width="2" stroke-linecap="round"/></g>
+            <g class="robot-leg-r"><line x1="21" y1="32" x2="22" y2="40" stroke="#00b4d8" stroke-width="2" stroke-linecap="round"/></g>
+          </svg>
+        </div>`;
+        document.body.appendChild(robot);
+
+        const btn = document.getElementById('signal-float-btn');
+        const targetRight = 130; // px from right — just left of the button
+
+        // Delay then start walk
+        setTimeout(() => {
+            const endX = window.innerWidth - targetRight;
+
+            // Fade in and start walking
+            robot.style.opacity = '1';
+            robot.style.transition = `left 3.2s cubic-bezier(0.4, 0, 0.6, 1)`;
+            robot.classList.add('walking');
+
+            // Force reflow then trigger transition
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    robot.style.left = endX + 'px';
+                });
+            });
+
+            // Arrived — stop bob, pulse button
+            setTimeout(() => {
+                robot.classList.remove('walking');
+                btn?.classList.add('robot-arrived');
+
+                // Fade robot out
+                setTimeout(() => {
+                    robot.style.transition = 'opacity 0.8s';
+                    robot.style.opacity = '0';
+                    setTimeout(() => {
+                        robot.remove();
+                        localStorage.setItem('signal-robot-shown', '1');
+                    }, 800);
+                }, 1200);
+
+            }, 3300);
+
+        }, 2800); // wait for page to settle
+    }
+
     // ── Floating widget open/close ───────────────────────────
     function setupFloat() {
         const btn = document.getElementById('signal-float-btn');
@@ -572,6 +640,7 @@
 
     // ── Boot ─────────────────────────────────────────────────
     function init() {
+        setupRobot();
         setupFloat();
         setupModeSwitcher();
         setupChatPanel('career_guide');

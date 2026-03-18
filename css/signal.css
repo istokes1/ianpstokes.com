@@ -3,6 +3,67 @@
    Uses existing CSS custom properties from styles.css
    ============================================================ */
 
+/* ── Robot intro ── */
+.signal-robot {
+    position: fixed;
+    bottom: 1.6rem;
+    left: -60px;
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.signal-robot svg {
+    display: block;
+}
+
+/* Bob animation on the SVG while walking */
+@keyframes robot-bob {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-3px); }
+}
+
+/* Leg swing */
+@keyframes leg-left {
+    0%, 100% { transform: rotate(0deg);  }
+    50%       { transform: rotate(12deg); }
+}
+
+@keyframes leg-right {
+    0%, 100% { transform: rotate(0deg);   }
+    50%       { transform: rotate(-12deg); }
+}
+
+.signal-robot.walking .robot-bob {
+    animation: robot-bob 0.38s ease-in-out infinite;
+}
+
+.signal-robot.walking .robot-leg-l {
+    transform-origin: 9px 0;
+    animation: leg-left 0.38s ease-in-out infinite;
+}
+
+.signal-robot.walking .robot-leg-r {
+    transform-origin: 21px 0;
+    animation: leg-right 0.38s ease-in-out infinite;
+}
+
+/* Button pulse when robot arrives */
+@keyframes signal-btn-arrive {
+    0%   { box-shadow: 0 4px 24px rgba(0,180,216,0.15); }
+    40%  { box-shadow: 0 0 0 6px rgba(0,180,216,0.2), 0 4px 32px rgba(0,180,216,0.4); }
+    100% { box-shadow: 0 4px 24px rgba(0,180,216,0.15); }
+}
+
+.signal-float-btn.robot-arrived {
+    animation: signal-btn-arrive 0.7s ease-out forwards;
+}
+
+/* Hide robot on mobile — too cluttered */
+@media (max-width: 768px) {
+    .signal-robot { display: none; }
+}
+
 /* Systems demo in-page section */
 .signal-demo-section {
     background: var(--bg-secondary);
