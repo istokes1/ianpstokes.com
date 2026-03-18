@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/signal.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 </head>
 <body>
@@ -29,6 +30,7 @@
                 <a href="#expertise">Expertise</a>
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
+                <a href="#signal">Signal</a>
             </div>
             <a href="/assets/Ian_Stokes_2026_Engineering_Leadership.pdf" download class="nav-cv-btn">
                 <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -53,6 +55,7 @@
         <a href="#expertise">Expertise</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
+        <a href="#signal">Signal</a>
     </div>
 
     <!-- Hero Section -->
@@ -903,6 +906,152 @@
         </div>
     </section>
 
+    <!-- SIGNAL Section -->
+    <section class="section signal" id="signal">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">04.8</span>
+                <h2 class="section-title">SIGNAL</h2>
+                <div class="section-line"></div>
+            </div>
+            <p class="section-intro">
+                Ask about Ian's background, explore a live engineering systems problem,
+                or find the right section for your needs.
+            </p>
+
+            <!-- Mode selector -->
+            <div class="signal-modes">
+                <button class="signal-mode-btn active" data-mode="career_guide">
+                    <span class="mode-icon">💼</span> Career Guide
+                </button>
+                <button class="signal-mode-btn" data-mode="systems_explainer">
+                    <span class="mode-icon">⚙️</span> Systems Explainer
+                </button>
+                <button class="signal-mode-btn" data-mode="discovery_guide">
+                    <span class="mode-icon">🗺️</span> Discovery Guide
+                </button>
+            </div>
+
+            <!-- Career Guide panel -->
+            <div class="signal-panel signal-chat" data-mode="career_guide">
+                <div class="signal-suggestions">
+                    <button class="signal-suggestion-btn">What industries has Ian worked in?</button>
+                    <button class="signal-suggestion-btn">Has Ian worked with safety-critical systems?</button>
+                    <button class="signal-suggestion-btn">Could Ian help scale an engineering team?</button>
+                    <button class="signal-suggestion-btn">What experience does Ian have with cloud and IoT?</button>
+                </div>
+                <div class="signal-messages"></div>
+                <div class="signal-input-row">
+                    <textarea class="signal-input" placeholder="Ask about Ian's background…" rows="1"></textarea>
+                    <button class="signal-send-btn">Send →</button>
+                </div>
+            </div>
+
+            <!-- Systems Explainer panel -->
+            <div class="signal-panel signal-explainer hidden" data-mode="systems_explainer">
+                <p class="signal-explainer-intro">
+                    A real engineering problem Ian diagnosed at Inductosense: as the number of sensors,
+                    RDCs, and gateways scales up, a naïve fixed-schedule system silently fails.
+                    Adjust the sliders to see where the timing collapse happens — and why.
+                </p>
+
+                <div class="signal-controls">
+                    <div class="signal-control-group">
+                        <div class="signal-control-label">
+                            <span>RDCs per Gateway</span>
+                            <span class="signal-control-value" id="signal-val-rdcs">20</span>
+                        </div>
+                        <input type="range" class="signal-slider" id="signal-slider-rdcs"
+                               min="1" max="95" value="20">
+                    </div>
+                    <div class="signal-control-group">
+                        <div class="signal-control-label">
+                            <span>Sensors per RDC</span>
+                            <span class="signal-control-value" id="signal-val-sensors">4</span>
+                        </div>
+                        <input type="range" class="signal-slider" id="signal-slider-sensors"
+                               min="1" max="8" value="4">
+                    </div>
+                    <div class="signal-control-group">
+                        <div class="signal-control-label">
+                            <span>Reading frequency</span>
+                            <span class="signal-control-value" id="signal-val-freq">1/min</span>
+                        </div>
+                        <input type="range" class="signal-slider" id="signal-slider-freq"
+                               min="1" max="60" value="1">
+                    </div>
+                    <div class="signal-control-group">
+                        <div class="signal-control-label">
+                            <span>Gateways</span>
+                            <span class="signal-control-value" id="signal-val-gateways">1</span>
+                        </div>
+                        <input type="range" class="signal-slider" id="signal-slider-gateways"
+                               min="1" max="8" value="1">
+                    </div>
+                    <div class="signal-control-group">
+                        <div class="signal-control-label">
+                            <span>Extraction time per reading</span>
+                            <span class="signal-control-value" id="signal-val-extraction">150ms</span>
+                        </div>
+                        <input type="range" class="signal-slider" id="signal-slider-extraction"
+                               min="10" max="500" value="150">
+                    </div>
+                </div>
+
+                <div class="signal-metrics">
+                    <div class="signal-metric">
+                        <div class="signal-metric-value" id="signal-metric-readings">—</div>
+                        <div class="signal-metric-label">Readings/min</div>
+                    </div>
+                    <div class="signal-metric">
+                        <div class="signal-metric-value" id="signal-metric-util">—</div>
+                        <div class="signal-metric-label">Gateway utilisation</div>
+                    </div>
+                    <div class="signal-metric">
+                        <div class="signal-metric-value" id="signal-metric-queue">—</div>
+                        <div class="signal-metric-label">Queue depth</div>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-bottom: 1rem; font-size: 0.78rem; color: var(--text-secondary);">
+                    Scheduling mode needed: <span class="signal-mode-badge" id="signal-metric-mode">FIXED</span>
+                </div>
+
+                <div class="signal-topology-wrap">
+                    <svg id="signal-topology" viewBox="0 0 600 220" height="220"></svg>
+                </div>
+
+                <div class="signal-chart-wrap">
+                    <canvas id="signal-timing-chart" width="600" height="180"></canvas>
+                </div>
+
+                <div class="signal-narration">
+                    <div class="signal-narration-label">// SIGNAL analysis</div>
+                    <div class="signal-narration-text">Adjust the sliders to see how system load changes.</div>
+                </div>
+
+                <div class="signal-explainer-ask">
+                    <input type="text" placeholder="Ask about this system…">
+                    <button>Ask →</button>
+                </div>
+            </div>
+
+            <!-- Discovery Guide panel -->
+            <div class="signal-panel signal-chat hidden" data-mode="discovery_guide">
+                <div class="signal-suggestions">
+                    <button class="signal-suggestion-btn">Has Ian led global engineering teams?</button>
+                    <button class="signal-suggestion-btn">Could he help a founder-led company scale?</button>
+                    <button class="signal-suggestion-btn">Has Ian worked in energy or nuclear sectors?</button>
+                    <button class="signal-suggestion-btn">What does Ian's engineering philosophy look like?</button>
+                </div>
+                <div class="signal-messages"></div>
+                <div class="signal-input-row">
+                    <textarea class="signal-input" placeholder="Describe what you're looking for…" rows="1"></textarea>
+                    <button class="signal-send-btn">Send →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Projects / Beyond Work Section -->
     <section class="section projects" id="projects">
         <div class="container">
@@ -1043,6 +1192,7 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/signal.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script>
     (function() {

@@ -1,0 +1,292 @@
+{
+  "_version": "1.0",
+  "_note": "Add content freely — new sections, deeper descriptions, additional projects. The AI reads everything here automatically. No code changes needed.",
+
+  "identity": {
+    "name": "Ian P Stokes",
+    "credentials": ["CEng", "MIET", "MSc (Oxon) Software Engineering", "BEng (Hons) Digital Systems Engineering"],
+    "location": "Bristol, UK",
+    "availability": "Open to CTO, VP Engineering, Engineering Director, and Principal Engineer roles. Advisory engagements also welcome.",
+    "contact": {
+      "email": "ian@ianpstokes.com",
+      "linkedin": "https://linkedin.com/in/ianpstokes",
+      "website": "https://www.ianpstokes.com"
+    },
+    "positioning": "Chartered engineer and technical leader. Builds and leads engineering organisations that deliver complex, safety-critical systems — from prototype to production, at scale, across seven industries and four continents.",
+    "unique_strength": "Cross-discipline breadth across software, electronics, mechanical systems, and safety-critical delivery — connecting disciplines that typically work in silos. Most effective in environments where engineering has become complex, unclear, or difficult to scale.",
+    "current_focus": "Industrial IoT and technology strategy — embedded sensing systems, cloud infrastructure, and predictive analytics for industrial asset integrity."
+  },
+
+  "employers": [
+    {
+      "name": "Inductosense",
+      "role": "Head of Strategy & Technology",
+      "period": "Current role",
+      "location": "Bristol, UK",
+      "sector": "Industrial IoT / Sensor Technology",
+      "description": "Early employee following Series A funding (Aramco-backed, ~$5M). Joined to professionalise the software engineering function and drive technology strategy. Expanded remit to cover software, robotics, and systems engineering across the organisation.",
+      "achievements": [
+        "Secured $150,000 in Microsoft funding to establish cloud infrastructure — covering all cloud costs for the first 12–18 months",
+        "Introduced DevOps pipelines, testing discipline, and Agile practices into a founder-led culture",
+        "Grew and structured the software team",
+        "Expanded remit to robotics team and broader systems engineering",
+        "Designed dynamic scheduling solution for RDC/Gateway system after visualising timing collapse at scale"
+      ],
+      "clients": ["Shell", "BP", "TotalEnergies", "Reliance", "Petrobras", "Chevron"],
+      "technologies": ["Azure", "IoT", "Embedded systems", "Robotics", "Cloud architecture", "DevOps"]
+    },
+    {
+      "name": "Capgemini Engineering",
+      "role": "Engineering Unit Manager — High Integrity Software",
+      "period": "Aug 2022 – May 2023",
+      "location": "Bath, UK",
+      "sector": "Safety-Critical Software / Defence & Nuclear",
+      "description": "Engineering Unit Manager within Capgemini's High Integrity Software division — delivering safety-critical software for air traffic control, nuclear, railway systems, aerospace engine management, and marine applications.",
+      "achievements": [
+        "Led engineering teams operating under IEC 61508 and DO-178C frameworks",
+        "Delivered software to SIL-4 — the highest safety integrity level used in nuclear, air traffic control, and defence",
+        "Managed resource planning, capability development, and delivery across multiple concurrent client programmes",
+        "Hinkley Point C nuclear new-build — formal methods and safety verification"
+      ],
+      "technologies": ["IEC 61508", "DO-178C", "SIL-4", "Formal methods", "Safety verification"],
+      "key_project": "Hinkley Point C — safety-critical software for the UK's next-generation nuclear power station"
+    },
+    {
+      "name": "Malvern Panalytical",
+      "role": "Head of Engineering, NanoMaterials Group",
+      "period": "Dec 2019 – Jul 2022",
+      "location": "Bristol, UK",
+      "sector": "Scientific Instrumentation",
+      "description": "Joined as the sole software engineer for Frontier Analytics — a funded internal startup within Malvern Panalytical. Built the first 6-person Agile sprint team from scratch, then replicated the model to scale to 36 engineers. Expanded remit to lead the NanoMaterials Group across the entire organisation.",
+      "achievements": [
+        "Scaled engineering team from 6 to 88 engineers",
+        "Introduced Azure cloud infrastructure, SaaS platforms, DevOps pipelines, and Agile Scrum across the group",
+        "Led development of Zetasizer (laser diffraction), X-ray and fluorescence scientific instrumentation platforms",
+        "Built Agile engineering culture from ground up in a traditionally academic environment"
+      ],
+      "technologies": ["Azure", "SaaS", "DevOps", "Agile Scrum", "Cloud architecture"],
+      "team_scale": "6 → 88 engineers"
+    },
+    {
+      "name": "GE Power (HVDC Division)",
+      "role": "Senior Engineering Leader — HVDC Controls, Protection & Software",
+      "period": "Sep 2017 – Apr 2019",
+      "location": "Stafford, UK",
+      "sector": "Energy Infrastructure",
+      "description": "Head of Controls, Protection and Software Engineering for GE's HVDC division — high-voltage direct current transmission systems connecting national and international power grids. Led large engineering teams delivering multi-billion-dollar infrastructure projects.",
+      "achievements": [
+        "DolWin3 offshore wind transmission — now powering over 1 million German homes with clean energy from the North Sea",
+        "Rio Madeira HVDC link, Brazil",
+        "Lower Churchill Falls, Newfoundland, Canada",
+        "Multiple Indian grid interconnects",
+        "Managed 24/7 operational responsibility for live projects across multiple continents simultaneously"
+      ],
+      "geographies": ["Europe", "India", "Brazil", "North America"],
+      "key_project": "DolWin3 — North Sea offshore wind transmission connecting to mainland Europe, powering 1M+ homes"
+    },
+    {
+      "name": "Volution Group",
+      "role": "Group Engineering Leader",
+      "period": "2016 – 2017",
+      "location": "Bristol, UK",
+      "sector": "HVAC / Motor Technology",
+      "description": "Engineering leadership across a portfolio of 10 companies under Volution Group — including Vent-Axia and other HVAC and motor technology businesses operating across Europe. Worked directly with the CEO on acquisition evaluation, business development, and group engineering strategy."
+    },
+    {
+      "name": "Eaton",
+      "role": "Head of Engineering Centre of Excellence",
+      "period": "2011 – 2016",
+      "location": "UK / Europe",
+      "sector": "Life Safety / Fire & Security",
+      "description": "Head of Engineering Centre of Excellence for fire, emergency lighting, and security systems across multiple UK and European sites. Led multidisciplinary teams developing safety-critical products through international certification and regulatory bodies.",
+      "achievements": [
+        "Products: EN54 fire panels, low-power radio devices, sounders, emergency way-guidance systems, voice alarms",
+        "Actively involved in ETSI standards committees as aide to the rapporteur on EN300220 (low-power radio)",
+        "UK representative on the BSIA (British Security Industry Association) committee",
+        "Attended Ofcom working groups in London on frequency bands for low-power devices"
+      ],
+      "standards": ["EN54", "EN300220", "ETSI", "BSIA", "Ofcom"]
+    },
+    {
+      "name": "Motorola",
+      "role": "Senior Engineering Manager",
+      "period": "1999 – 2011",
+      "location": "Swindon, UK / Global",
+      "sector": "Telecommunications",
+      "description": "Progressed from software engineer to senior management across Motorola's BTS (Base Transceiver Station) platforms — 2G, 3G, and 4G. Led multidisciplinary teams spanning software, firmware, hardware, PCB design, and test across the UK, China, Vietnam, Singapore, Poland, and the US.",
+      "achievements": [
+        "Managed Motorola's telecommunications infrastructure for the Beijing Olympics 2008 — half-city GSM network coverage",
+        "Trained 300+ engineers as Scrum Masters and Agile coaches globally",
+        "Responsible for 96 concurrent engineering projects at peak",
+        "Developed GSM handover for 300km/h high-speed rail operations in China",
+        "First commercial GSM system in Europe — developed and supported from Swindon R&D Lab",
+        "Actively involved in ETSI standards committees as aide to the rapporteur"
+      ],
+      "geographies": ["UK", "China", "Vietnam", "Singapore", "Poland", "USA"],
+      "team_scale": "300+ engineers trained globally",
+      "key_project": "Beijing Olympics 2008 — GSM communications infrastructure for the Games"
+    }
+  ],
+
+  "education": [
+    {
+      "institution": "University of Oxford",
+      "college": "Kellogg College",
+      "qualification": "MSc Software Engineering",
+      "period": "2001 – 2006",
+      "note": "Studied alongside a full-time engineering career at Motorola"
+    },
+    {
+      "institution": "University of the West of England (UWE)",
+      "qualification": "BEng (Hons) Digital Systems Engineering",
+      "period": "1994 – 1999"
+    }
+  ],
+
+  "certifications": [
+    "CEng (Chartered Engineer) — Engineering Council",
+    "MIET — Member of the Institution of Engineering and Technology",
+    "Certified Scrum Master (CSM) — Scrum Alliance",
+    "PRINCE2 Certified Project Manager"
+  ],
+
+  "signature_achievements": [
+    {
+      "title": "DolWin3 HVDC Link",
+      "description": "North Sea offshore wind transmission system powering over 1 million German homes. Led controls, protection and software engineering at GE.",
+      "sector": "Energy"
+    },
+    {
+      "title": "Beijing Olympics 2008",
+      "description": "Managed Motorola's GSM communications infrastructure for the Games — half-city network coverage for one of the world's largest sporting events.",
+      "sector": "Telecoms"
+    },
+    {
+      "title": "Hinkley Point C",
+      "description": "Safety-critical software development for the UK's next-generation nuclear power station, operating under IEC 61508 SIL-4 frameworks.",
+      "sector": "Nuclear / Safety-Critical"
+    },
+    {
+      "title": "Team scaling 6 → 88",
+      "description": "Built engineering organisation at Malvern Panalytical from a single engineer to 88-person group spanning multiple product lines and disciplines.",
+      "sector": "Engineering Leadership"
+    },
+    {
+      "title": "$150K Microsoft funding",
+      "description": "Secured Microsoft Azure funding for Inductosense's cloud infrastructure build-out — covering all cloud costs for the first 12–18 months.",
+      "sector": "IoT / Startup"
+    },
+    {
+      "title": "300+ Agile coaches trained",
+      "description": "Championed Agile adoption at Motorola — training over 300 engineers as Scrum Masters and coaches across global engineering organisations.",
+      "sector": "Engineering Culture"
+    },
+    {
+      "title": "96 concurrent projects",
+      "description": "At peak at Capgemini / Motorola, managed 96 concurrent engineering programmes across multiple countries and disciplines simultaneously.",
+      "sector": "Programme Management"
+    }
+  ],
+
+  "expertise_domains": [
+    {
+      "domain": "Engineering Leadership",
+      "summary": "Built and scaled engineering organisations from startup teams to 88-person groups. Led global teams across 6+ countries. Specialises in introducing engineering discipline, culture, and process into organisations that need to scale.",
+      "skills": ["Team scaling", "Agile transformation", "Engineering culture", "Hiring and development", "Cross-functional leadership"]
+    },
+    {
+      "domain": "Safety-Critical Software",
+      "summary": "Delivered software to SIL-4 — the highest safety integrity level — across nuclear, air traffic control, railway, and defence domains. Deep familiarity with IEC 61508, DO-178C, and formal verification methods.",
+      "skills": ["IEC 61508", "DO-178C", "SIL-4", "Formal methods", "Hinkley Point C", "Safety cases"]
+    },
+    {
+      "domain": "Software Engineering",
+      "summary": "Full SDLC across embedded, cloud, and distributed systems. From firmware and low-level BTS platform code to Azure cloud architecture and modern DevOps pipelines.",
+      "skills": ["Embedded software", "Cloud architecture", "Azure", "DevOps", "CI/CD", "Distributed systems"]
+    },
+    {
+      "domain": "Electronics & Communications",
+      "summary": "BEng-grounded electronics capability applied through telecom platforms, RF systems, low-power radio, and industrial control. Delivered physical systems from PCB design through to global high-volume production.",
+      "skills": ["RF systems", "GSM/3G/4G", "Low-power radio", "ETSI EN300220", "HVDC", "PCB design"]
+    },
+    {
+      "domain": "Industrial IoT",
+      "summary": "Current focus area. Embedded sensing platforms, edge devices, cloud analytics, and autonomous inspection robotics for industrial asset integrity.",
+      "skills": ["IoT platforms", "Edge computing", "Industrial sensors", "Robotics integration", "Predictive maintenance", "Azure IoT"]
+    },
+    {
+      "domain": "Systems Thinking",
+      "summary": "The thread connecting all disciplines. Ability to see how decisions in one domain ripple through an entire system — from hardware design through software architecture to deployment operations and customer outcomes.",
+      "skills": ["Systems architecture", "Cross-discipline integration", "Complexity reduction", "Technical strategy"]
+    }
+  ],
+
+  "industries": [
+    "Telecommunications (2G/3G/4G infrastructure, global carriers)",
+    "Life Safety & Fire Systems (EN54 certified, international approvals)",
+    "Energy Infrastructure (HVDC, offshore wind, grid interconnection)",
+    "Scientific Instrumentation (nanoparticle analysis, laser diffraction, X-ray)",
+    "Safety-Critical Software (nuclear, air traffic control, railway, aerospace)",
+    "Industrial IoT (asset integrity, predictive maintenance, robotics inspection)",
+    "HVAC & Industrial Systems (motor technology, ventilation, group engineering)"
+  ],
+
+  "rdc_gateway_problem": {
+    "_note": "This is Ian's flagship systems thinking demonstration. It illustrates how he diagnoses invisible scaling problems in distributed IoT systems.",
+    "context": "Inductosense deploys ultrasonic sensors (RDCs — Remote Data Collectors) on industrial pipework to monitor corrosion and wall thickness. Data is collected via wireless gateways and processed in the cloud.",
+    "components": {
+      "rdc": {
+        "full_name": "Remote Data Collector",
+        "sensors_per_unit": 8,
+        "function": "Each sensor port can be scheduled to take ultrasonic thickness readings at a defined interval (e.g. once per minute, once per hour, once per day)",
+        "storage": "Stores readings locally until a gateway connects to extract them",
+        "acquisition_time": "Each reading takes a finite time to acquire. If scheduled at 1/minute across 8 sensors, the RDC completes a full cycle in ~8 minutes, then immediately starts again"
+      },
+      "gateway": {
+        "function": "Wirelessly connects to multiple RDCs, extracts stored readings, forwards to cloud",
+        "max_rdcs": 95,
+        "constraint": "Extraction takes time — the gateway must connect to each RDC sequentially, wait for data transfer, then move to the next. This competes with ongoing RDC acquisition."
+      },
+      "device_communication_manager": {
+        "abbreviation": "DCM",
+        "function": "Orchestrates all gateways via a task queue system. Works through each gateway in turn, instructing it to collect from its RDCs.",
+        "constraint": "Sequential task processing means that the time to complete a full collection cycle across all gateways and all RDCs grows non-linearly with scale"
+      }
+    },
+    "scaling_problem": {
+      "description": "At small scale (few RDCs, infrequent readings), fixed scheduling works. As scale increases, the interaction between acquisition time, extraction time, gateway capacity, and DCM task queue creates timing collapse that is invisible without visualisation.",
+      "naive_approach": "Fixed schedule — 'collect every N minutes' — assumes the system can always keep up. This breaks silently: readings queue up, extraction falls behind acquisition, data gaps appear with no obvious cause.",
+      "what_happens_at_scale": "With 95 RDCs per gateway × multiple gateways × 8 sensors each × 1 reading/minute, the total data throughput demand rapidly exceeds what the extraction pipeline can service. The system appears to work but is silently losing data.",
+      "non_obvious_insight": "The problem isn't any single component — it's the interaction between all of them. No single engineer 'owns' the bottleneck because it emerges from the system as a whole.",
+      "solution": "Dynamic scheduling — the DCM monitors actual queue depth and adjusts extraction priority in real time, rather than assuming a fixed cadence. This requires understanding the whole system, not just individual components."
+    },
+    "why_it_was_hard_to_see": "The business could not comprehend the scale of the problem because there was no visual representation of how the timing interactions worked. A static description or spreadsheet did not convey the emergent complexity. A visual diagram showing how each additional RDC and gateway added to the overall timing load made the problem — and the solution — immediately obvious to non-technical stakeholders.",
+    "ians_role": "Diagnosed the scaling problem, visualised it, and designed the dynamic scheduling architecture that resolved it. Used AI to generate initial visualisations that made the problem comprehensible to the business."
+  },
+
+  "personal": {
+    "location": "Bristol, UK (Chipping Sodbury area)",
+    "interests": [
+      "Cycling — cycles approximately 20 miles to work daily",
+      "3D printing and additive manufacturing",
+      "Electronics and making",
+      "Robotics experimentation",
+      "Photography"
+    ],
+    "philosophy": "Good engineering starts with curiosity, discipline, and a willingness to understand the whole system. Still as hands-on and curious now as at any point in the career."
+  },
+
+  "languages": ["English (native)", "Chinese (Mandarin)"],
+
+  "site_sections": [
+    { "id": "about", "label": "About Me", "description": "Overview, credentials, positioning" },
+    { "id": "impact", "label": "Career Impact", "description": "Key achievements with numbers — DolWin3, team scaling, Olympics, Hinkley Point C" },
+    { "id": "story", "label": "Engineering Story", "description": "Personal background, engineering philosophy, DNA, leadership principles" },
+    { "id": "career", "label": "Career Journey", "description": "Full timeline from early career through to current role at Inductosense" },
+    { "id": "showcase", "label": "Industries & Projects", "description": "Seven industry domains with flagship projects in each" },
+    { "id": "expertise", "label": "Expertise", "description": "Technical domains and capabilities in detail" },
+    { "id": "signal", "label": "SIGNAL", "description": "AI guide — career questions, systems explainer, site discovery" },
+    { "id": "projects", "label": "Beyond Work", "description": "Personal projects: cycling, 3D printing, making and building" },
+    { "id": "contact", "label": "Contact", "description": "Get in touch" }
+  ]
+}
